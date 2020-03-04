@@ -6,18 +6,26 @@ import { MaterialIcons } from "@expo/vector-icons";
 import Result from "../../../components/Result/Result";
 
 // Câmera
-function PictureCamera() {
+function PictureCamera({ handleImageFromCamera }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
+  const [camera, setCamera] = useState(null);
 
   useEffect(() => {
     RequireCamera();
   }, []);
 
-  // Solicita a permissão de utlização da câmera
+  // Solicita a permissão de utilização da câmera
   async function RequireCamera() {
     const { status } = await Camera.requestPermissionsAsync();
     setHasPermission(status === "granted");
+  }
+
+  async function takeImageFromCameraAsync() {
+    if (camera) {
+      let image = await camera.takePictureAsync();
+      handleImageFromCamera(image);
+    }
   }
 
   if (hasPermission === null) {
@@ -30,7 +38,13 @@ function PictureCamera() {
 
   return (
     <View style={styles.container}>
-      <Camera style={styles.camera} type={type}>
+      <Camera
+        ref={ref => {
+          setCamera(ref);
+        }}
+        style={styles.camera}
+        type={type}
+      >
         <View
           style={{
             flex: 1,
@@ -43,7 +57,7 @@ function PictureCamera() {
               alignSelf: "flex-end",
               alignItems: "center"
             }}
-            onPress={() => {}}
+            onPress={() => takeImageFromCameraAsync()}
           >
             <MaterialIcons name="photo-camera" size={50} color="#FFF" />
           </TouchableOpacity>

@@ -15,13 +15,22 @@ import { uniqueId } from "lodash";
 
 import api from "../../../services/Api";
 import Result from "../../../components/Result/Result";
+import PictureCamera from "../../private/Picture/PictureCamera";
 
 // Câmera
 function PictureGallery(props) {
   const { userLogin, userProjects, navigation, route } = props;
   const { token, profissional } = userLogin;
   const { step } = userProjects;
+
   const [image, setImage] = useState(null);
+  // Await / Error request
+  const [show, SetShow] = useState({
+    await: false,
+    error: false
+  });
+
+  const [camera, setCamera] = useState(false);
 
   const authorization = `Bearer ${token}`;
   // Procurando imagens no disco local
@@ -35,11 +44,14 @@ function PictureGallery(props) {
 
     let pickerResult = await ImagePicker.launchImageLibraryAsync();
 
-    //console.log(pickerResult);
-
     if (!pickerResult.cancelled) {
       setImage(pickerResult);
     }
+  }
+
+  function handleImageFromCamera(imageFromCamera) {
+    setImage(imageFromCamera);
+    setCamera(false);
   }
 
   // prepara a imgem para request / upload
@@ -69,6 +81,11 @@ function PictureGallery(props) {
 
   async function handleUploadImage() {
     try {
+      SetShow({
+        error: false,
+        await: true
+      });
+
       let dataImage = createImageData(image);
 
       const response = await api.post(`/arquivos/${step._id}`, dataImage, {
@@ -78,9 +95,33 @@ function PictureGallery(props) {
           authorization: `Bearer ${token}`
         }
       });
+
+      SetShow({
+        error: false,
+        await: false
+      });
+
+      setImage(null);
     } catch (err) {
       console.log("error 1", err);
+
+      SetShow({
+        error: true,
+        await: false
+      });
     }
+  }
+
+  if (show.await) {
+    return <Result type="await" />;
+  }
+
+  if (show.error) {
+    return <Result type="error" />;
+  }
+
+  if (camera) {
+    return <PictureCamera handleImageFromCamera={handleImageFromCamera} />;
   }
 
   return (
@@ -99,7 +140,17 @@ function PictureGallery(props) {
           style={styles.buttonSave}
         >
           <MaterialCommunityIcons name="image-search" size={30} color="#FFF" />
-          <Text style={styles.labelButtonSave}>Procurar Imagem</Text>
+          <Text style={styles.labelButtonSave}>Galeria</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.buttonSaveContainer}>
+        <TouchableOpacity
+          onPress={() => setCamera(true)}
+          style={styles.buttonSave}
+        >
+          <MaterialCommunityIcons name="camera" size={30} color="#FFF" />
+          <Text style={styles.labelButtonSave}>Câmera</Text>
         </TouchableOpacity>
       </View>
 

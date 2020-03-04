@@ -35,10 +35,7 @@ function FlatListItemSeparator() {
 function CardItem(props) {
   const { item, navigation, Delete, profissional } = props;
 
-  console.log(item);
-
   const pathImage = {
-    //uri: `${apiURL}/public/images/${item.path}`
     uri: `${item.url}`
   };
 
