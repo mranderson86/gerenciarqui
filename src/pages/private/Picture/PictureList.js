@@ -117,7 +117,7 @@ function PictureList(props) {
             profissional={profissional}
           />
         )}
-        //ItemSeparatorComponent={<FlatListItemSeparator />}
+        ItemSeparatorComponent={() => <FlatListItemSeparator />}
       />
 
       <AuthRender auth={profissional}>
