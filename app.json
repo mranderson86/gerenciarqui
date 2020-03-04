@@ -1,0 +1,21 @@
+{
+  "name": "GerenciArqui",
+  "displayName": "GerenciArqui",
+  "expo": {
+    "name": "GerenciArqui",
+    "slug": "gerenciarqui-app",
+    "privacy": "unlisted",
+    "sdkVersion": "36.0.0",
+    "version": "1.0.0",
+    "entryPoint": "node_modules/expo/AppEntry.js",
+    "platforms": ["ios", "android", "web"],
+    "ios": {
+      "bundleIdentifier": "br.mentoria2020.gerenciarqui",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "br.mentoria2020.gerenciarqui",
+      "versionCode": 1
+    }
+  }
+}
