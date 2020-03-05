@@ -127,20 +127,12 @@ function PaymentsList(props) {
   }
 
   function editBudget(budget) {
-    BudgetCurrentAction({
-      budget
-    });
-
     navigation.navigate("PaymentRegister", { edit: true });
   }
 
   // Carrega a tela de cadastro
-  function addNewBudget() {
-    BudgetCurrentAction({
-      budget: {}
-    });
-
-    props.navigation.navigate("PaymentsRegister", { edit: false });
+  function addNewPayment() {
+    props.navigation.navigate("PaymentRegister", { edit: false });
   }
 
   //  Renderiza cada orçamento da lista de orçamentos
