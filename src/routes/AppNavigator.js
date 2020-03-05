@@ -17,6 +17,8 @@ import PictureCamera from "../pages/private/Picture/PictureCamera";
 import PictureList from "../pages/private/Picture/PictureList";
 import Home from "../pages/private/Home";
 import PictureGallery from "../pages/private/Picture/PictureGallary";
+import PaymentsList from "../pages/private/Payments/PaymentsList";
+import PaymentRegister from "../pages/private/Payments/PaymentRegister";
 
 // function LogoTitle() {
 //     return (
@@ -167,6 +169,22 @@ function AppNavigator() {
         component={PictureGallery}
         options={{
           title: "Procurar Imagem"
+        }}
+      />
+
+      <AppStack.Screen
+        name="PaymentRegister"
+        component={PaymentRegister}
+        options={{
+          title: "Novo Pagamento"
+        }}
+      />
+
+      <AppStack.Screen
+        name="PaymentsList"
+        component={PaymentsList}
+        options={{
+          title: "Novo Pagamento"
         }}
       />
     </AppStack.Navigator>
