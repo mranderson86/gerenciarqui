@@ -62,7 +62,7 @@ function ProjectMenu(props) {
         activeOpacity={0.9}
         style={styles.cardContainer}
         onPress={() => {
-          navigation.navigate("Payments", { reloading: false });
+          navigation.navigate("PaymentsList", { reloading: false });
         }}
       >
         <View style={styles.cardItems}>

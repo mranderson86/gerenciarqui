@@ -21,7 +21,7 @@ import AuthRender from "../AuthRender";
 // Renderiza o card de cada etapa
 function CardItem(props) {
   const {
-    budget,
+    payment,
     navigation,
     deleteBudget,
     loadBudgetListItems,
@@ -30,21 +30,17 @@ function CardItem(props) {
   } = props;
 
   return (
-    <TouchableOpacity
-      activeOpacity={0.9}
-      style={styles.cardContainer}
-      onPress={() => loadBudgetListItems(budget)}
-    >
+    <View style={styles.cardContainer}>
       <View style={styles.cardItems}>
         <View style={styles.cardItemsValueLabel}>
-          <Text style={styles.cardItemLabel}>{budget.tipo}</Text>
-          <Text style={styles.cardItemValue}>{budget.descricao}</Text>
-
-          <Text style={styles.cardItemLabel}>Valor Total</Text>
-          <Text style={styles.cardItemValue}>{budget.valor_total || 0}</Text>
+          <Text style={styles.cardItemLabel}>{""}</Text>
+          <Text style={styles.cardItemValue}>{payment.detalhes}</Text>
 
           <Text style={styles.cardItemLabel}>Valor Pago</Text>
-          <Text style={styles.cardItemValue}>{budget.valor_pago}</Text>
+          <Text style={styles.cardItemValue}>{payment.valor || 0}</Text>
+
+          <Text style={styles.cardItemLabel}>Data</Text>
+          <Text style={styles.cardItemValue}>{payment.data_pgto}</Text>
         </View>
 
         <AuthRender auth={profissional}>
@@ -60,12 +56,12 @@ function CardItem(props) {
           </TouchableOpacity>
         </AuthRender>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 }
 
-// Tela Lista de Etapas
-function BudgetList(props) {
+// Lista de Pagamentos
+function PaymentsList(props) {
   const {
     BudgetCurrentAction,
     userProjects,
@@ -74,25 +70,25 @@ function BudgetList(props) {
     route
   } = props;
   const { token, profissional } = userLogin;
-  const { project, reload } = userProjects;
+  const { project } = userProjects;
 
   const { reloading } = route.params;
 
   const [show, setShow] = useState(false);
-  const [budgets, setBudgets] = useState([]);
+  const [payments, setPayments] = useState([]);
   const [error, setErr] = useState(false);
 
   // carrega a lista das etapas
   useEffect(() => {
-    loadBudgets();
-  }, [navigation, reload, reloading]);
+    loadPayments();
+  }, [navigation, reloading]);
 
   // consulta a lista das etapas
-  async function loadBudgets() {
+  async function loadPayments() {
     try {
       setShow(true);
 
-      const response = await api.get(`/orcamentos/${project._id}`, {
+      const response = await api.get(`/pagamentos/${project._id}`, {
         headers: {
           authorization: `Bearer ${token}`
         }
@@ -101,9 +97,9 @@ function BudgetList(props) {
       const data = response.data;
 
       if (data) {
-        setBudgets(data);
+        setPayments(data);
       } else {
-        setBudgets([]);
+        setPayments([]);
       }
 
       setShow(false);
@@ -113,11 +109,11 @@ function BudgetList(props) {
     }
   }
 
-  async function deleteBudget(id) {
+  async function deletePayment(id) {
     try {
       setShow(true);
 
-      const response = await api.delete(`/orcamentos/${id}`, {
+      const response = await api.delete(`/pagamentos/${id}`, {
         headers: {
           authorization: `Bearer ${token}`
         }
@@ -135,7 +131,7 @@ function BudgetList(props) {
       budget
     });
 
-    navigation.navigate("BudgetRegister", { edit: true });
+    navigation.navigate("PaymentRegister", { edit: true });
   }
 
   // Carrega a tela de cadastro
@@ -144,15 +140,7 @@ function BudgetList(props) {
       budget: {}
     });
 
-    props.navigation.navigate("BudgetRegister", { edit: false });
-  }
-
-  function loadBudgetListItems(budget) {
-    BudgetCurrentAction({
-      budget
-    });
-
-    props.navigation.navigate("BudgetListItems", { reload: false });
+    props.navigation.navigate("PaymentsRegister", { edit: false });
   }
 
   //  Renderiza cada orçamento da lista de orçamentos
@@ -167,15 +155,14 @@ function BudgetList(props) {
       ) : (
         <>
           <FlatList
-            data={budgets}
-            contentContainerStyle={styles.list}
+            data={payments}
+            //contentContainerStyle={styles.list}
             keyExtractor={item => item._id}
             renderItem={({ item }) => (
               <CardItem
                 {...props}
-                budget={item}
-                deleteBudget={deleteBudget}
-                loadBudgetListItems={loadBudgetListItems}
+                payment={item}
+                deleteBudget={deletePayment}
                 editBudget={editBudget}
                 profissional={profissional}
               />
@@ -185,7 +172,7 @@ function BudgetList(props) {
           <AuthRender auth={profissional}>
             <TouchableOpacity
               style={styles.buttonSave}
-              onPress={() => addNewBudget()}
+              onPress={() => addNewPayment()}
             >
               <MaterialIcons name="add-circle" size={50} color="#1FB6FF" />
             </TouchableOpacity>
@@ -204,15 +191,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#E5E9F2"
   },
   list: {
-    paddingHorizontal: "1%",
-    paddingTop: "1%"
+    //paddingHorizontal: "1%",
+    //paddingTop: "1%"
   },
   cardContainer: {
     // alinha no eixo horizontal
     alignItems: "center",
     backgroundColor: "#fff",
     padding: "1%",
-    margin: "1%",
+    //margin: "1%",
     borderRadius: 4,
     shadowColor: "#000",
     shadowOffset: {
@@ -227,7 +214,7 @@ const styles = StyleSheet.create({
   cardItems: {
     flexDirection: "row",
     //backgroundColor: "#232334",
-    width: "95%",
+    width: "98%",
     paddingTop: "1%",
     paddingBottom: "1%"
   },
@@ -256,30 +243,6 @@ const styles = StyleSheet.create({
     paddingBottom: "1%",
     fontWeight: "bold"
     //fontSize: 16
-  },
-
-  cardDetails: {
-    width: "95%",
-    paddingTop: "1%",
-    paddingBottom: "1%",
-    paddingLeft: "1%",
-    backgroundColor: "#F9FAFC"
-    //backgroundColor: '#EFF2F7'
-    //backgroundColor: '#000'
-  },
-
-  cardDetailsHeader: {
-    // alignItems: 'center',
-    // borderBottomColor: '#ccc',
-    // borderBottomWidth: 1,
-    width: "95%",
-    paddingTop: "1%",
-    paddingBottom: "1%",
-
-    backgroundColor: "#C0CCDA",
-    height: 40,
-    alignItems: "center",
-    justifyContent: "center"
   }
 });
 

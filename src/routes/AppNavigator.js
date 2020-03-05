@@ -184,7 +184,7 @@ function AppNavigator() {
         name="PaymentsList"
         component={PaymentsList}
         options={{
-          title: "Novo Pagamento"
+          title: "Todos os pagamentos"
         }}
       />
     </AppStack.Navigator>
