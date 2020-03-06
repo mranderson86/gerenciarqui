@@ -7,8 +7,10 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Keyboard
 } from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import { MaterialIcons } from "@expo/vector-icons";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -26,15 +28,19 @@ function PaymentRegister(props) {
 
   const [show, setShow] = useState(false);
   const [error, setErr] = useState(false);
+  const [dateModal, setDateModal] = useState(false);
 
   const headers = {
     authorization: `Bearer ${token}`
   };
 
+  //const today = `${new Date().getDate()}/${new Date().getMonth() /
+  //  new Date().getFullYear()}`;
+
   const [pay, setPay] = useState({
     description: "",
     valuePay: 0.0,
-    datePay: new Date()
+    datePay: ""
   });
 
   // carrega dados da etapa
@@ -90,7 +96,13 @@ function PaymentRegister(props) {
               style={styles.input}
               value={pay.description}
               placeholder="Digite aqui"
-              onChangeText={val => setPay([...pay, (description: val)])}
+              onChangeText={val => {
+                const newPay = {
+                  ...pay,
+                  description: val
+                };
+                setPay(newPay);
+              }}
             />
           </View>
 
@@ -102,7 +114,13 @@ function PaymentRegister(props) {
                 style={styles.input}
                 value={pay.valuePay.toString()}
                 placeholder="Digite aqui"
-                onChangeText={val => setPay([...pay, (valuePay: val)])}
+                onChangeText={val => {
+                  const newPay = {
+                    ...pay,
+                    valuePay: val
+                  };
+                  setPay(newPay);
+                }}
               />
             </View>
           </View>
@@ -110,13 +128,39 @@ function PaymentRegister(props) {
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Data</Text>
             <TextInput
-              keyboardType="default"
               style={styles.input}
               value={pay.datePay.toString()}
               placeholder="Digite aqui"
-              onChangeText={val => setPay([...pay, (datePay: val)])}
+              //onChangeText={val => setPay([...pay, (datePay: val)])}
+              onFocus={e => {
+                Keyboard.dismiss();
+                setDateModal(true);
+              }}
             />
           </View>
+
+          {dateModal && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              timeZoneOffsetInMinutes={0}
+              value={new Date()}
+              mode="date"
+              //is24Hour={true}
+              //display="default"
+              onChange={(evt, date) => {
+                setDateModal(false);
+                //setPay([...pay, (datePay: date)]);
+
+                console.log(date);
+
+                const newPay = {
+                  ...pay,
+                  datePay: date?.toString() || ""
+                };
+                setPay(newPay);
+              }}
+            />
+          )}
         </View>
         <View style={styles.buttonSaveContainer}>
           <TouchableOpacity style={styles.buttonSave} onPress={() => save()}>
