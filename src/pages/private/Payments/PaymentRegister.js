@@ -31,233 +31,100 @@ function PaymentRegister(props) {
     authorization: `Bearer ${token}`
   };
 
-  const [newDetail, setNewDetail] = useState("");
-  const [type, setType] = useState("");
-  const [description, setDescription] = useState("");
-  const [valuePay, setValuePay] = useState("0");
-  const [valueTotal, setValueTotal] = useState(0);
-  const [accept, setAccept] = useState(false);
-  const [status, setStatus] = useState(false);
-  const [typePay, setTypePay] = useState("À Vista");
-  const [counterPay, setCounterPay] = useState(0);
-  const [validate, setValidate] = useState("99/99/9999");
+  const [pay, setPay] = useState({
+    description: "",
+    valuePay: 0.0,
+    datePay: new Date()
+  });
 
   // carrega dados da etapa
-  useEffect(() => {
-    if (edit && budget) {
-      setType(budget.tipo);
-      setDescription(budget.descricao);
-      setValueTotal(budget.valor_total || 0);
-    }
-  }, []);
+  useEffect(() => {}, []);
 
   // Salva uma nova etapa ou altera uma etapa existente
   async function save() {
     try {
       const data = {
-        ...budget,
-        tipo: type,
-        descricao: description,
+        ...payment,
+        detalhes: pay.description,
         projeto_id: project._id,
-        valor_pago: valuePay,
-        meio_pagto: typePay,
-        parcelas: counterPay,
-        valor_parcela: 0.0
+        valor: pay.valuePay,
+        data_pgto: pay.datePay
       };
 
       setShow(true);
 
       if (edit) {
-        const response = await api.put(`/orcamentos/${budget._id}`, data, {
+        const response = await api.put(`/pagamentos/${payment._id}`, data, {
           headers: headers
         });
       } else {
-        const response = await api.post("/orcamentos", data, {
+        const response = await api.post("/pagamentos", data, {
           headers: headers
         });
       }
 
       // Retorna para a lista de orçamentos
-      navigation.navigate("Budgets", { reloading: true });
+      navigation.navigate("PaymentsList", { reloading: true });
     } catch (err) {
       console.log("error", err);
       setErr(true);
     }
   }
 
-  // Adiciona um novo detalhe na lista
-  function AddNewDetail() {
-    if (newDetail !== "") {
-      const newRowDetail = {
-        item: newDetail,
-        checked: false
-      };
-
-      setDetails([...details, newRowDetail]);
-      setNewDetail("");
-    }
+  if (show && error) {
+    return <Result type="error" />;
   }
 
-  // Exclui um detalhe da lista
-  function deleteDetail(detail) {
-    const oldDetails = details;
-    oldDetails.splice(oldDetails.indexOf(detail), 1);
-
-    setDetails([...oldDetails]);
-  }
-
-  // Marca um novo detalhe como concluido.
-  function checkDetail(index, detail) {
-    const { checked, item } = detail;
-
-    const newCheck = {
-      item: item,
-      checked: !checked
-    };
-
-    const oldDetails = details;
-    oldDetails.splice(index, 1, newCheck);
-    setDetails([...oldDetails]);
+  if (show && !error) {
+    return <Result type="await" />;
   }
 
   //  Renderiza cada etapa da lista de Etapa
   return (
     <KeyboardAvoidingView behavior="padding" enabled>
-      {show ? (
-        error ? (
-          <Result type="error" />
-        ) : (
-          <Result type="await" />
-        )
-      ) : (
-        <>
-          <ScrollView style={{ width: "100%", height: "100%" }}>
-            <View style={styles.formContainer}>
-              <View style={styles.inputContainer100perc}>
-                <Text style={styles.label}>Tipo</Text>
-                <TextInput
-                  style={styles.input}
-                  value={type}
-                  placeholder="Digite aqui"
-                  onChangeText={val => setType(val)}
-                />
-              </View>
+      <ScrollView style={{ width: "100%", height: "100%" }}>
+        <View style={styles.formContainer}>
+          <View style={styles.inputContainer100perc}>
+            <Text style={styles.label}>Descrição</Text>
+            <TextInput
+              style={styles.input}
+              value={pay.description}
+              placeholder="Digite aqui"
+              onChangeText={val => setPay([...pay, (description: val)])}
+            />
+          </View>
 
-              <View style={styles.inputContainer100perc}>
-                <Text style={styles.label}>Descrição</Text>
-                <TextInput
-                  style={styles.input}
-                  value={description}
-                  placeholder="Digite aqui"
-                  onChangeText={val => setDescription(val)}
-                />
-              </View>
-
-              <View style={styles.containerInputValueRow}>
-                <View style={styles.inputContainer}>
-                  <Text style={styles.label}>Valor Total</Text>
-                  <TextInput style={styles.labelValueReadOnly}>
-                    R$ {valueTotal.toFixed(2)}
-                  </TextInput>
-                </View>
-
-                <View style={styles.inputContainer}>
-                  <Text style={styles.label}>Valor Pago</Text>
-                  <TextInput
-                    keyboardType="numeric"
-                    style={styles.input}
-                    value={valuePay.toString() || ""}
-                    placeholder="Digite aqui"
-                    onChangeText={val => {
-                      if (val !== "") setValuePay(val);
-                    }}
-                  />
-                </View>
-              </View>
-
-              <View style={styles.containerInputValueRow}>
-                <View style={styles.inputContainer}>
-                  <Text style={styles.label}>Forma de Pagamento</Text>
-                  <TextInput
-                    keyboardType="default"
-                    style={styles.input}
-                    value={typePay}
-                    placeholder="Digite aqui"
-                    onChangeText={val => setTypePay(val)}
-                  />
-                </View>
-
-                <View style={styles.inputContainer}>
-                  <Text style={styles.label}>Parcelas</Text>
-                  <TextInput
-                    keyboardType="number-pad"
-                    style={styles.input}
-                    value={counterPay.toString()}
-                    placeholder="Digite aqui"
-                    onChangeText={val => {
-                      if (val !== "") setCounterPay(val);
-                    }}
-                  />
-                </View>
-              </View>
-
-              <View style={styles.containerInputValueRow}>
-                <View style={styles.containerInputValueRowCheck}>
-                  <Text style={styles.label}>Aceite</Text>
-                  <TouchableOpacity
-                    style={{ paddingLeft: "5%", paddingRight: "1%" }}
-                    onPress={() => {
-                      setAccept(!accept);
-                    }}
-                  >
-                    <MaterialIcons
-                      name="check"
-                      size={30}
-                      color={accept ? "#13CE66" : "#C0CCDA"}
-                    />
-                  </TouchableOpacity>
-                </View>
-
-                <View style={styles.containerInputValueRowCheck}>
-                  <Text style={styles.label}>Situação</Text>
-                  <TouchableOpacity
-                    style={{ paddingLeft: "5%", paddingRight: "1%" }}
-                    onPress={() => {
-                      setStatus(!status);
-                    }}
-                  >
-                    <MaterialIcons
-                      name="check"
-                      size={30}
-                      color={status ? "#13CE66" : "#C0CCDA"}
-                    />
-                  </TouchableOpacity>
-                </View>
-              </View>
-
-              <View style={styles.inputContainer}>
-                <Text style={styles.label}>Validade</Text>
-                <TextInput
-                  keyboardType="default"
-                  style={styles.input}
-                  value={validate}
-                  placeholder="Digite aqui"
-                  onChangeText={val => setValidate(val)}
-                />
-              </View>
+          <View style={styles.containerInputValueRow}>
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Valor</Text>
+              <TextInput
+                keyboardType="numeric"
+                style={styles.input}
+                value={pay.valuePay.toString()}
+                placeholder="Digite aqui"
+                onChangeText={val => setPay([...pay, (valuePay: val)])}
+              />
             </View>
-            <View style={styles.buttonSaveContainer}>
-              <TouchableOpacity
-                style={styles.buttonSave}
-                onPress={() => save()}
-              >
-                <MaterialIcons name="save" size={30} color="#FFF" />
-                <Text style={styles.labelButtonSave}>Salvar</Text>
-              </TouchableOpacity>
-            </View>
-          </ScrollView>
-        </>
-      )}
+          </View>
+
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Data</Text>
+            <TextInput
+              keyboardType="default"
+              style={styles.input}
+              value={pay.datePay.toString()}
+              placeholder="Digite aqui"
+              onChangeText={val => setPay([...pay, (datePay: val)])}
+            />
+          </View>
+        </View>
+        <View style={styles.buttonSaveContainer}>
+          <TouchableOpacity style={styles.buttonSave} onPress={() => save()}>
+            <MaterialIcons name="save" size={30} color="#FFF" />
+            <Text style={styles.labelButtonSave}>Salvar</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 }
@@ -279,9 +146,7 @@ const styles = StyleSheet.create({
   },
 
   detailsContainer: {
-    //justifyContent: 'center',
     alignItems: "center"
-    //backgroundColor: '#000'
   },
 
   containerInputValueRow: {
