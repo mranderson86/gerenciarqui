@@ -15,6 +15,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
+import { dateBrFormat } from "../../../utils/utils";
+
 import api from "../../../services/Api";
 import { UserAction } from "../../../store/Users/userAction";
 import Result from "../../../components/Result/Result";
@@ -151,7 +153,7 @@ function PaymentRegister(props) {
                 setDateModal(false);
                 //setPay([...pay, (datePay: date)]);
 
-                console.log(date);
+                console.log(dateBrFormat(date), "  ", date);
 
                 const newPay = {
                   ...pay,

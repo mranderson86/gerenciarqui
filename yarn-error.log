@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/bin/node /usr/share/yarn/bin/yarn.js add @react-native-community/datetimepicker
+  /usr/bin/node /usr/share/yarn/bin/yarn.js add moment
 
 PATH: 
   /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/lib/jvm/java-8-oracle/bin:/usr/lib/jvm/java-8-oracle/db/bin:/usr/lib/jvm/java-8-oracle/jre/bin:/home/mister86/flutter/bin
@@ -26,6 +26,7 @@ npm manifest:
       "test": "jest"
     },
     "dependencies": {
+      "@react-native-community/datetimepicker": "^2.2.3",
       "@react-native-community/masked-view": "^0.1.5",
       "@react-navigation/native": "^5.0.8",
       "@react-navigation/stack": "^5.1.0",
@@ -1258,6 +1259,13 @@ Lockfile:
       sudo-prompt "^9.0.0"
       wcwidth "^1.0.1"
       ws "^1.1.0"
+  
+  "@react-native-community/datetimepicker@^2.2.3":
+    version "2.2.3"
+    resolved "https://registry.yarnpkg.com/@react-native-community/datetimepicker/-/datetimepicker-2.2.3.tgz#d42665d0bd79681b404165eeafa988abb292e126"
+    integrity sha512-UcSe5faKL2E5bB9icl5Cr2eDzAM9kZ+6oMVvK/UqbP1ImAp8qB0+x+zEyoTyPo1+nRfu4Ujhpid8CoMEPP12YA==
+    dependencies:
+      invariant "^2.2.4"
   
   "@react-native-community/masked-view@^0.1.5":
     version "0.1.7"
