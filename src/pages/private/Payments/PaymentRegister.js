@@ -15,7 +15,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import { dateBrFormat } from "../../../utils/utils";
+import { dateBrFormat, moneyUsFormat } from "../../../utils/utils";
 
 import api from "../../../services/Api";
 import { UserAction } from "../../../store/Users/userAction";
@@ -112,14 +112,15 @@ function PaymentRegister(props) {
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Valor</Text>
               <TextInput
+                textAlign="right"
                 keyboardType="numeric"
                 style={styles.input}
                 value={pay.valuePay.toString()}
-                placeholder="Digite aqui"
+                placeholder="R$ 0,00"
                 onChangeText={val => {
                   const newPay = {
                     ...pay,
-                    valuePay: val
+                    valuePay: moneyUsFormat(val)
                   };
                   setPay(newPay);
                 }}
@@ -132,7 +133,7 @@ function PaymentRegister(props) {
             <TextInput
               style={styles.input}
               value={pay.datePay.toString()}
-              placeholder="Digite aqui"
+              placeholder="99/99/9999"
               //onChangeText={val => setPay([...pay, (datePay: val)])}
               onFocus={e => {
                 Keyboard.dismiss();
@@ -151,13 +152,12 @@ function PaymentRegister(props) {
               //display="default"
               onChange={(evt, date) => {
                 setDateModal(false);
-                //setPay([...pay, (datePay: date)]);
 
-                console.log(dateBrFormat(date), "  ", date);
+                console.log(dateBrFormat(date), " - ", date);
 
                 const newPay = {
                   ...pay,
-                  datePay: date?.toString() || ""
+                  datePay: dateBrFormat(date)
                 };
                 setPay(newPay);
               }}

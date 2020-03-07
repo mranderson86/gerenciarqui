@@ -7,27 +7,19 @@ import ProjectsList from "../pages/private/Projects/ProjectsList";
 import ProjectRegister from "../pages/private/Projects/ProjectRegister";
 import DetailsList from "../pages/private/Details/DetailsList";
 import DetailRegister from "../pages/private/Details/DetailRegister";
-import ProjectMenu from "../pages/private/ProjectMenu/ProjectMenu";
+import ProjectMenu from "../pages/private/Projects/ProjectMenu";
 import BudgetList from "../pages/private/Budget/BudgetList";
 import BudgetRegister from "../pages/private/Budget/BudgetRegister";
 import BudgetListItems from "../pages/private/BudgetItems/BudgetListItems";
 import BudgetItemRegister from "../pages/private/BudgetItems/BudgetItemRegister";
-import StepMenu from "../pages/private/StepMenu/StepMenu";
+import BudgetMenu from "../pages/private/Budget/BudgetMenu";
+import StepMenu from "../pages/private/Steps/StepMenu";
 import PictureCamera from "../pages/private/Picture/PictureCamera";
 import PictureList from "../pages/private/Picture/PictureList";
 import Home from "../pages/private/Home";
 import PictureGallery from "../pages/private/Picture/PictureGallary";
 import PaymentsList from "../pages/private/Payments/PaymentsList";
 import PaymentRegister from "../pages/private/Payments/PaymentRegister";
-
-// function LogoTitle() {
-//     return (
-//       <Image
-//         style={{ width: 50, height: 50 }}
-//         source={require('@expo/snack-static/react-native-logo.png')}
-//       />
-//     );
-//   }
 
 const AppStack = createStackNavigator();
 
