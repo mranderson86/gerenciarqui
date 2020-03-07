@@ -24,7 +24,7 @@ function CardItem(props) {
     budget,
     navigation,
     deleteBudget,
-    loadBudgetListItems,
+    loadBudgetMenu,
     editBudget,
     profissional
   } = props;
@@ -33,7 +33,8 @@ function CardItem(props) {
     <TouchableOpacity
       activeOpacity={0.9}
       style={styles.cardContainer}
-      onPress={() => loadBudgetListItems(budget)}
+      //onPress={() => loadBudgetListItems(budget)}
+      onPress={() => loadBudgetMenu(budget)}
     >
       <View style={styles.cardItems}>
         <View style={styles.cardItemsValueLabel}>
@@ -147,6 +148,15 @@ function BudgetList(props) {
     props.navigation.navigate("BudgetRegister", { edit: false });
   }
 
+  // Carrega menu de cada orçamento
+  function loadBudgetMenu(budget) {
+    BudgetCurrentAction({
+      budget
+    });
+
+    props.navigation.navigate("BudgetMenu");
+  }
+
   function loadBudgetListItems(budget) {
     BudgetCurrentAction({
       budget
@@ -175,7 +185,7 @@ function BudgetList(props) {
                 {...props}
                 budget={item}
                 deleteBudget={deleteBudget}
-                loadBudgetListItems={loadBudgetListItems}
+                loadBudgetMenu={loadBudgetMenu}
                 editBudget={editBudget}
                 profissional={profissional}
               />

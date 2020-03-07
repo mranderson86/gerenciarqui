@@ -9,9 +9,14 @@ function dateBrFormat(date = "") {
   return "";
 }
 
-// Valor no formato de moeda
+// Formato de moeda em Us
 function moneyUsFormat(value = "") {
   return value.replace(",", ".");
+}
+
+// Formato de moeda em Br
+function moneyBrFormat(value = "") {
+  return value.replace(".", ",");
 }
 
 export { dateBrFormat };

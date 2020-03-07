@@ -61,22 +61,6 @@ function ProjectMenu(props) {
       <TouchableOpacity
         activeOpacity={0.9}
         style={styles.cardContainer}
-        onPress={() => {
-          navigation.navigate("PaymentsList", { reloading: false });
-        }}
-      >
-        <View style={styles.cardItems}>
-          <View style={styles.cardItemsValueLabel}>
-            <Text style={styles.cardItemValue}>Pagamentos</Text>
-          </View>
-
-          <MaterialIcons name="chevron-right" size={30} color="#1FB6FF" />
-        </View>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        activeOpacity={0.9}
-        style={styles.cardContainer}
         onPress={() => {}}
       >
         <View style={styles.cardItems}>
