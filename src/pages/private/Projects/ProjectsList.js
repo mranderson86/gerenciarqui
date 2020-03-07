@@ -27,11 +27,7 @@ function CardItem(props) {
     <TouchableOpacity
       activeOpacity={0.9}
       style={styles.cardContainer}
-      //onPress={() => navigation.navigate("Steps", { projectId: item._id })}
-      onPress={
-        () => LoadDashboard(item)
-        //LoadStepList(item)
-      }
+      onPress={() => LoadDashboard(item)}
     >
       <View style={styles.cardItems}>
         <View style={styles.cardItemsValueLabel}>
@@ -53,10 +49,6 @@ function CardItem(props) {
           >
             <MaterialIcons name="edit" size={30} color="#1FB6FF" />
           </TouchableOpacity>
-
-          {/* <TouchableOpacity onPress={() => Delete(item._id)}>
-            <MaterialIcons name="delete" size={30} color="#FF4949" />
-          </TouchableOpacity> */}
         </AuthRender>
       </View>
     </TouchableOpacity>
@@ -184,15 +176,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    //backgroundColor: "#F9FAFC"
     backgroundColor: "#E5E9F2"
-    //marginTop: Constants.statusBarHeight
   },
   list: {
-    //marginTop: Constants.statusBarHeight,
     paddingHorizontal: "1%",
     paddingTop: "1%"
-    //backgroundColor: '#000',
   },
   cardContainer: {
     // alinha no eixo horizontal
@@ -200,7 +188,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: "1%",
     margin: "1%",
-    //width: 380,
     borderRadius: 4,
     shadowColor: "#000",
     shadowOffset: {
@@ -214,8 +201,6 @@ const styles = StyleSheet.create({
 
   cardItems: {
     flexDirection: "row",
-    //backgroundColor: "#232334",
-    //width: "100%",
     paddingTop: "1%",
     paddingBottom: "1%"
   },
@@ -223,12 +208,10 @@ const styles = StyleSheet.create({
   cardItemsValueLabel: {
     flexDirection: "column",
     width: "90%"
-    //backgroundColor: 'red',
   },
 
   cardItemLabel: {
     color: "#888",
-    //backgroundColor: 'yellow',
     paddingTop: "1%",
     paddingBottom: "1%"
   },
@@ -236,8 +219,6 @@ const styles = StyleSheet.create({
   cardItemValue: {
     paddingLeft: "5%",
     paddingRight: "10%",
-    //width: '50%',
-    //backgroundColor: 'blue',
     paddingTop: "1%",
     paddingBottom: "1%",
     fontWeight: "bold",
@@ -250,14 +231,9 @@ const styles = StyleSheet.create({
     paddingBottom: "1%",
     paddingLeft: "1%",
     backgroundColor: "#F9FAFC"
-    //backgroundColor: '#EFF2F7'
-    //backgroundColor: '#000'
   },
 
   cardDetailsHeader: {
-    // alignItems: 'center',
-    // borderBottomColor: '#ccc',
-    // borderBottomWidth: 1,
     width: "95%",
     paddingTop: "1%",
     paddingBottom: "1%",
