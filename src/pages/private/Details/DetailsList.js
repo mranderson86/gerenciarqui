@@ -42,10 +42,7 @@ function StepItem(props) {
         <AuthRender auth={profissional}>
           <TouchableOpacity
             style={{ paddingLeft: "5%", paddingRight: "1%" }}
-            onPress={
-              () => CheckDetail(item, index)
-              //navigation.navigate("DetailRegister", { step: item, edit: true })
-            }
+            onPress={() => CheckDetail(item, index)}
           >
             <MaterialIcons
               name="check"
@@ -65,9 +62,17 @@ function StepItem(props) {
 
 // Tela Lista de Etapas
 function DetailsList(props) {
-  const { StepCurrentAction, userProjects, userLogin, navigation } = props;
+  const {
+    StepCurrentAction,
+    userProjects,
+    userLogin,
+    navigation,
+    route
+  } = props;
   const { token, profissional } = userLogin;
-  const { step, reload, project } = userProjects;
+  const { step, project } = userProjects;
+
+  const { reloading } = route.params;
 
   const [details, setDetails] = useState([]);
   const [show, setShow] = useState(false);
@@ -76,7 +81,7 @@ function DetailsList(props) {
   // carrega a lista das etapas
   useEffect(() => {
     loadDetails();
-  }, [navigation, reload]);
+  }, [navigation, reloading]);
 
   // consulta a lista das etapas
   async function loadDetails() {
@@ -206,10 +211,6 @@ function DetailsList(props) {
       headers: {
         authorization: `Bearer ${token}`
       }
-    });
-
-    ReloadAction({
-      reload: true
     });
 
     setShow(false);

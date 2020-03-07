@@ -31,12 +31,7 @@ function DetailRegister(props) {
   const [error, setErr] = useState(false);
   const [title, setTitle] = useState("");
 
-  //console.log(step);
-  useEffect(() => {
-    ReloadAction({
-      reload: false
-    });
-  }, []);
+  useEffect(() => {}, []);
 
   // inclui um novo item de detalhe na lista de detalhes da etapa
   async function save() {
@@ -61,11 +56,7 @@ function DetailRegister(props) {
         }
       });
 
-      ReloadAction({
-        reload: true
-      });
-
-      navigation.navigate("Details");
+      navigation.navigate("Details", { reloading: true });
     } catch (err) {
       console.log("error(detail) ", err);
 

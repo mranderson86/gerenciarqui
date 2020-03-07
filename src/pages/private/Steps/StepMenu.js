@@ -31,7 +31,7 @@ function StepMenu(props) {
         activeOpacity={0.9}
         style={styles.cardContainer}
         onPress={() => {
-          navigation.navigate("Details");
+          navigation.navigate("Details", { reloading: false });
         }}
       >
         <View style={styles.cardItems}>
@@ -58,7 +58,7 @@ function StepMenu(props) {
           <MaterialIcons name="chevron-right" size={30} color="#1FB6FF" />
         </View>
       </TouchableOpacity>
-
+      {/* 
       <TouchableOpacity
         activeOpacity={0.9}
         style={styles.cardContainer}
@@ -73,7 +73,7 @@ function StepMenu(props) {
 
           <MaterialIcons name="chevron-right" size={30} color="#1FB6FF" />
         </View>
-      </TouchableOpacity>
+      </TouchableOpacity>7 */}
     </View>
   );
 }
