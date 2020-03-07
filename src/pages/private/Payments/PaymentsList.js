@@ -40,16 +40,12 @@ function CardItem(props) {
 
           <Text style={styles.cardItemLabel}>Valor Pago</Text>
           <Text style={styles.cardItemValue}>
-            {moneyBrFormat(
-              parseFloat(payment.valor)
-                .toFixed(2)
-                .toString() || "0.00"
-            )}
+            {moneyBrFormat(parseFloat(payment.valor).toFixed(2))}
           </Text>
 
           <Text style={styles.cardItemLabel}>Data</Text>
           <Text style={styles.cardItemValue}>
-            {dateBrFormat(payment.data_pgto)}
+            {dateBrFormat(new Date(payment.data_pgto))}
           </Text>
         </View>
 
@@ -73,7 +69,7 @@ function CardItem(props) {
 // Lista de Pagamentos
 function PaymentsList(props) {
   const {
-    BudgetCurrentAction,
+    PaymentCurrentAction,
     userProjects,
     userLogin,
     navigation,

@@ -85,65 +85,65 @@ function Login(props) {
     }
   }
 
+  if (show) {
+    return <Result type="await" />;
+  }
+
   //  Renderiza cada etapa da lista de Etapa
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
       <ScrollView style={styles.containerScrollView}>
-        {show ? (
-          <Result type="await" />
-        ) : (
-          <View style={styles.containerHome}>
-            <View style={styles.logoContainer}>
-              <Image
-                style={styles.imageLogoContainer}
-                source={require("../../assets/gerenciArqui_logo.png")}
+        <View style={styles.containerHome}>
+          <View style={styles.logoContainer}>
+            <Image
+              style={styles.imageLogoContainer}
+              source={require("../../assets/gerenciArqui_logo.png")}
+            />
+          </View>
+
+          <View style={styles.formContainer}>
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Usuário</Text>
+              <TextInput
+                style={styles.input}
+                value={email}
+                placeholder="Digite seu usuário"
+                onChangeText={val => setEmail(val)}
               />
             </View>
 
-            <View style={styles.formContainer}>
-              <View style={styles.inputContainer}>
-                <Text style={styles.label}>Usuário</Text>
-                <TextInput
-                  style={styles.input}
-                  value={email}
-                  placeholder="Digite seu usuário"
-                  onChangeText={val => setEmail(val)}
-                />
-              </View>
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Senha</Text>
+              <TextInput
+                secureTextEntry
+                style={styles.input}
+                value={password}
+                placeholder="Digite sua senha"
+                onChangeText={val => setPassword(val)}
+              />
+            </View>
 
-              <View style={styles.inputContainer}>
-                <Text style={styles.label}>Senha</Text>
-                <TextInput
-                  secureTextEntry
-                  style={styles.input}
-                  value={password}
-                  placeholder="Digite sua senha"
-                  onChangeText={val => setPassword(val)}
-                />
+            {error ? (
+              <View>
+                <Text style={{ color: "#FF4949", textAlign: "center" }}>
+                  Usuário e/ou Senha incorreto !
+                </Text>
               </View>
+            ) : (
+              <></>
+            )}
 
-              {error ? (
-                <View>
-                  <Text style={{ color: "#FF4949", textAlign: "center" }}>
-                    Usuário e/ou Senha incorreto !
-                  </Text>
-                </View>
-              ) : (
-                <></>
-              )}
-
-              <View style={styles.buttonLoginContainer}>
-                <TouchableOpacity
-                  style={styles.buttonSave}
-                  onPress={() => submitLogin()}
-                >
-                  <Text style={styles.labelButtonLogin}>Entrar</Text>
-                  <MaterialIcons name="chevron-right" size={30} color="#FFF" />
-                </TouchableOpacity>
-              </View>
+            <View style={styles.buttonLoginContainer}>
+              <TouchableOpacity
+                style={styles.buttonSave}
+                onPress={() => submitLogin()}
+              >
+                <Text style={styles.labelButtonLogin}>Entrar</Text>
+                <MaterialIcons name="chevron-right" size={30} color="#FFF" />
+              </TouchableOpacity>
             </View>
           </View>
-        )}
+        </View>
       </ScrollView>
     </KeyboardAvoidingView>
   );

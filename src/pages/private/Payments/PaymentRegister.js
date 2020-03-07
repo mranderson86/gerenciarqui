@@ -18,7 +18,8 @@ import { bindActionCreators } from "redux";
 import {
   dateBrFormat,
   moneyUsFormat,
-  moneyBrFormat
+  moneyBrFormat,
+  moneyBrMask
 } from "../../../utils/utils";
 
 import api from "../../../services/Api";
@@ -29,7 +30,7 @@ import Result from "../../../components/Result/Result";
 function PaymentRegister(props) {
   const { userLogin, userProjects, navigation, route } = props;
   const { token } = userLogin;
-  const { project, budget } = userProjects;
+  const { project, budget, payment } = userProjects;
   const { edit } = route.params;
 
   const [show, setShow] = useState(false);
@@ -46,8 +47,20 @@ function PaymentRegister(props) {
     datePay: dateBrFormat(new Date())
   });
 
-  // carrega dados da etapa
-  useEffect(() => {}, []);
+  // carrega dados do pagamento
+  useEffect(() => {
+    if (edit) {
+      console.log(payment);
+
+      const editPay = {
+        description: payment.detalhes,
+        valuePay: moneyBrFormat(parseFloat(payment.valor).toFixed(2)),
+        datePay: dateBrFormat(payment.data_pgto)
+      };
+
+      setPay(editPay);
+    }
+  }, []);
 
   // Salva uma nova etapa ou altera uma etapa existente
   async function save() {
@@ -55,14 +68,14 @@ function PaymentRegister(props) {
       const { cliente_id, profissional_id } = project;
 
       const data = {
-        ...pay,
+        ...payment,
         projeto_id: project._id,
         orcamento_id: budget._id,
         cliente_id: cliente_id._id,
         profissional_id: profissional_id._id,
         detalhes: pay.description,
         valor: moneyUsFormat(pay.valuePay),
-        data_pgto: pay.datePay
+        data_pgto: new Date(pay.datePay)
       };
 
       setShow(true);
@@ -77,7 +90,7 @@ function PaymentRegister(props) {
         });
       }
 
-      // Retorna para a lista de orçamentos
+      // Retorna para a lista de pagamentos
       navigation.navigate("PaymentsList", { reloading: true });
     } catch (err) {
       console.log("error", err);
@@ -126,7 +139,7 @@ function PaymentRegister(props) {
                 onChangeText={val => {
                   const newPay = {
                     ...pay,
-                    valuePay: moneyBrFormat(val)
+                    valuePay: moneyBrMask(val)
                   };
                   setPay(newPay);
                 }}
@@ -140,7 +153,6 @@ function PaymentRegister(props) {
               style={styles.input}
               value={pay.datePay.toString()}
               placeholder="99/99/9999"
-              //onChangeText={val => setPay([...pay, (datePay: val)])}
               onFocus={e => {
                 Keyboard.dismiss();
                 setDateModal(true);
@@ -154,12 +166,8 @@ function PaymentRegister(props) {
               timeZoneOffsetInMinutes={0}
               value={new Date()}
               mode="date"
-              //is24Hour={true}
-              //display="default"
               onChange={(evt, date) => {
                 setDateModal(false);
-
-                console.log(dateBrFormat(date), " - ", date);
 
                 const newPay = {
                   ...pay,

@@ -17,6 +17,7 @@ import { BudgetCurrentAction } from "../../../store/Projects/projectAction";
 
 import Result from "../../../components/Result/Result";
 import AuthRender from "../AuthRender";
+import { moneyBrFormat } from "../../../utils/utils";
 
 // Renderiza o card de cada etapa
 function CardItem(props) {
@@ -42,10 +43,14 @@ function CardItem(props) {
           <Text style={styles.cardItemValue}>{budget.descricao}</Text>
 
           <Text style={styles.cardItemLabel}>Valor Total</Text>
-          <Text style={styles.cardItemValue}>{budget.valor_total || 0}</Text>
+          <Text style={styles.cardItemValue}>
+            {moneyBrFormat(budget.valor_total || 0.0)}
+          </Text>
 
           <Text style={styles.cardItemLabel}>Valor Pago</Text>
-          <Text style={styles.cardItemValue}>{budget.valor_pago}</Text>
+          <Text style={styles.cardItemValue}>
+            {moneyBrFormat(budget.valor_pago)}
+          </Text>
         </View>
 
         <AuthRender auth={profissional}>

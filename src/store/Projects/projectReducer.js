@@ -8,16 +8,16 @@ const INITIAL_STATE = {
 
 function projectReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
-    case "UPDATE_PROJECT_CURRENT":
+    case "UPDATE_PROJECT":
       const { project } = action.payload;
       return { ...state, project };
-    case "UPDATE_STEP_CURRENT":
+    case "UPDATE_STEP":
       const { step } = action.payload;
       return { ...state, step };
     case "UPDATE_BUDGET":
       const { budget } = action.payload;
       return { ...state, budget };
-    case "UPDATE_PAYMENTO":
+    case "UPDATE_PAYMENT":
       const { payment } = action.payload;
       return { ...state, payment };
     default:
