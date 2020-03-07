@@ -45,3 +45,10 @@ export const BudgetCurrentAction = ({ budget }) => ({
     budget
   }
 });
+
+export const PaymentCurrentAction = ({ payment }) => ({
+  type: "UPDATE_BUDGET",
+  payload: {
+    payment
+  }
+});

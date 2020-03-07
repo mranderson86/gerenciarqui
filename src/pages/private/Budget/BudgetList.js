@@ -154,7 +154,7 @@ function BudgetList(props) {
       budget
     });
 
-    props.navigation.navigate("BudgetMenu");
+    props.navigation.navigate("BudgetMenu", { title: budget.tipo });
   }
 
   function loadBudgetListItems(budget) {

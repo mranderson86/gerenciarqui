@@ -16,20 +16,9 @@ import { UserAction } from "../../../store/Users/userAction";
 import { ProjectCurrentAction } from "../../../store/Projects/projectAction";
 
 import Result from "../../../components/Result/Result";
+import Separator from "../../../components/Separator/Separator";
 
 import AuthRender from "../AuthRender";
-
-function FlatListItemSeparator() {
-  return (
-    <View
-      style={{
-        height: 0.5,
-        width: "100%",
-        backgroundColor: "#000"
-      }}
-    />
-  );
-}
 
 // Renderiza o card de cada etapa
 function CardItem(props) {
@@ -117,7 +106,7 @@ function PictureList(props) {
             profissional={profissional}
           />
         )}
-        ItemSeparatorComponent={() => <FlatListItemSeparator />}
+        ItemSeparatorComponent={() => <Separator />}
       />
 
       <AuthRender auth={profissional}>

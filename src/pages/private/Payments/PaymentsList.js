@@ -13,19 +13,21 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import api from "../../../services/Api";
-import { BudgetCurrentAction } from "../../../store/Projects/projectAction";
+import { PaymentCurrentAction } from "../../../store/Projects/projectAction";
 
 import Result from "../../../components/Result/Result";
+import Separator from "../../../components/Separator/Separator";
 import AuthRender from "../AuthRender";
 
-// Renderiza o card de cada etapa
+import { dateBrFormat, moneyBrFormat } from "../../../utils/utils";
+
+// Card Payment
 function CardItem(props) {
   const {
     payment,
     navigation,
-    deleteBudget,
-    loadBudgetListItems,
-    editBudget,
+    deletePayment,
+    editPayment,
     profissional
   } = props;
 
@@ -37,21 +39,29 @@ function CardItem(props) {
           <Text style={styles.cardItemValue}>{payment.detalhes}</Text>
 
           <Text style={styles.cardItemLabel}>Valor Pago</Text>
-          <Text style={styles.cardItemValue}>{payment.valor || 0}</Text>
+          <Text style={styles.cardItemValue}>
+            {moneyBrFormat(
+              parseFloat(payment.valor)
+                .toFixed(2)
+                .toString() || "0.00"
+            )}
+          </Text>
 
           <Text style={styles.cardItemLabel}>Data</Text>
-          <Text style={styles.cardItemValue}>{payment.data_pgto}</Text>
+          <Text style={styles.cardItemValue}>
+            {dateBrFormat(payment.data_pgto)}
+          </Text>
         </View>
 
         <AuthRender auth={profissional}>
           <TouchableOpacity
             style={{ paddingLeft: "5%", paddingRight: "1%" }}
-            onPress={() => editBudget(budget)}
+            onPress={() => editPayment(payment)}
           >
             <MaterialIcons name="edit" size={30} color="#1FB6FF" />
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => deleteBudget(budget._id)}>
+          <TouchableOpacity onPress={() => deletePayment(payment._id)}>
             <MaterialIcons name="delete" size={30} color="#FF4949" />
           </TouchableOpacity>
         </AuthRender>
@@ -119,14 +129,18 @@ function PaymentsList(props) {
         }
       });
 
-      loadBudgets();
+      loadPayments();
     } catch (err) {
       console.log("err", err);
       setErr(true);
     }
   }
 
-  function editBudget(budget) {
+  function editPayment(payment) {
+    PaymentCurrentAction({
+      payment
+    });
+
     navigation.navigate("PaymentRegister", { edit: true });
   }
 
@@ -135,42 +149,40 @@ function PaymentsList(props) {
     props.navigation.navigate("PaymentRegister", { edit: false });
   }
 
-  //  Renderiza cada orçamento da lista de orçamentos
+  if (show && error) {
+    return <Result type="error" />;
+  }
+
+  if (show && !error) {
+    return <Result type="await" />;
+  }
+
+  //  Renderiza cada orçamento da lista de Pagamentos
   return (
     <SafeAreaView style={styles.container}>
-      {show ? (
-        error ? (
-          <Result type="error" />
-        ) : (
-          <Result type="await" />
-        )
-      ) : (
-        <>
-          <FlatList
-            data={payments}
-            //contentContainerStyle={styles.list}
-            keyExtractor={item => item._id}
-            renderItem={({ item }) => (
-              <CardItem
-                {...props}
-                payment={item}
-                deleteBudget={deletePayment}
-                editBudget={editBudget}
-                profissional={profissional}
-              />
-            )}
+      <FlatList
+        data={payments}
+        keyExtractor={item => item._id}
+        renderItem={({ item }) => (
+          <CardItem
+            {...props}
+            payment={item}
+            deletePayment={deletePayment}
+            editPayment={editPayment}
+            profissional={profissional}
           />
+        )}
+        ItemSeparatorComponent={() => <Separator />}
+      />
 
-          <AuthRender auth={profissional}>
-            <TouchableOpacity
-              style={styles.buttonSave}
-              onPress={() => addNewPayment()}
-            >
-              <MaterialIcons name="add-circle" size={50} color="#1FB6FF" />
-            </TouchableOpacity>
-          </AuthRender>
-        </>
-      )}
+      <AuthRender auth={profissional}>
+        <TouchableOpacity
+          style={styles.buttonSave}
+          onPress={() => addNewPayment()}
+        >
+          <MaterialIcons name="add-circle" size={50} color="#1FB6FF" />
+        </TouchableOpacity>
+      </AuthRender>
     </SafeAreaView>
   );
 }
@@ -182,16 +194,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#E5E9F2"
   },
-  list: {
-    //paddingHorizontal: "1%",
-    //paddingTop: "1%"
-  },
+
   cardContainer: {
     // alinha no eixo horizontal
     alignItems: "center",
     backgroundColor: "#fff",
     padding: "1%",
-    //margin: "1%",
     borderRadius: 4,
     shadowColor: "#000",
     shadowOffset: {
@@ -205,7 +213,6 @@ const styles = StyleSheet.create({
 
   cardItems: {
     flexDirection: "row",
-    //backgroundColor: "#232334",
     width: "98%",
     paddingTop: "1%",
     paddingBottom: "1%"
@@ -214,12 +221,10 @@ const styles = StyleSheet.create({
   cardItemsValueLabel: {
     flexDirection: "column",
     width: "80%"
-    //backgroundColor: 'red',
   },
 
   cardItemLabel: {
     color: "#888",
-    //backgroundColor: 'yellow',
     paddingTop: "1%",
     paddingBottom: "1%",
     fontWeight: "bold",
@@ -229,12 +234,9 @@ const styles = StyleSheet.create({
   cardItemValue: {
     paddingLeft: "5%",
     paddingRight: "10%",
-    //width: '50%',
-    //backgroundColor: 'blue',
     paddingTop: "1%",
     paddingBottom: "1%",
     fontWeight: "bold"
-    //fontSize: 16
   }
 });
 
@@ -248,7 +250,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      BudgetCurrentAction
+      PaymentCurrentAction
     },
     dispatch
   );

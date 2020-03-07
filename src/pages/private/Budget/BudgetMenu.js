@@ -31,7 +31,7 @@ function BudgetMenu(props) {
         activeOpacity={0.9}
         style={styles.cardContainer}
         onPress={() => {
-          navigation.navigate("BudgetListItems");
+          navigation.navigate("BudgetListItems", { reloading: false });
         }}
       >
         <View style={styles.cardItems}>
@@ -47,7 +47,7 @@ function BudgetMenu(props) {
         activeOpacity={0.9}
         style={styles.cardContainer}
         onPress={() => {
-          navigation.navigate("PaymentList", { reload: false });
+          navigation.navigate("PaymentsList", { reload: false });
         }}
       >
         <View style={styles.cardItems}>

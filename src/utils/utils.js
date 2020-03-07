@@ -17,7 +17,12 @@ function moneyUsFormat(value = "") {
 // Formato de moeda em Br
 function moneyBrFormat(value = "") {
   return value.replace(".", ",");
+  //   return new Intl.NumberFormat("pt-BR", {
+  //     style: "currency",
+  //     currency: "BRL"
+  //   }).format(value);
 }
 
 export { dateBrFormat };
 export { moneyUsFormat };
+export { moneyBrFormat };

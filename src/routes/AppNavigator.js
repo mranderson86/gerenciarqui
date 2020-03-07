@@ -125,6 +125,14 @@ function AppNavigator() {
       />
 
       <AppStack.Screen
+        name="BudgetMenu"
+        component={BudgetMenu}
+        options={({ route }) => ({
+          title: route.params.title
+        })}
+      />
+
+      <AppStack.Screen
         name="BudgetItemRegister"
         component={BudgetItemRegister}
         options={{

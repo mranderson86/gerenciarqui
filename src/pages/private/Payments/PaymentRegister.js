@@ -15,7 +15,11 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import { dateBrFormat, moneyUsFormat } from "../../../utils/utils";
+import {
+  dateBrFormat,
+  moneyUsFormat,
+  moneyBrFormat
+} from "../../../utils/utils";
 
 import api from "../../../services/Api";
 import { UserAction } from "../../../store/Users/userAction";
@@ -36,13 +40,10 @@ function PaymentRegister(props) {
     authorization: `Bearer ${token}`
   };
 
-  //const today = `${new Date().getDate()}/${new Date().getMonth() /
-  //  new Date().getFullYear()}`;
-
   const [pay, setPay] = useState({
     description: "",
-    valuePay: 0.0,
-    datePay: ""
+    valuePay: "",
+    datePay: dateBrFormat(new Date())
   });
 
   // carrega dados da etapa
@@ -51,11 +52,16 @@ function PaymentRegister(props) {
   // Salva uma nova etapa ou altera uma etapa existente
   async function save() {
     try {
+      const { cliente_id, profissional_id } = project;
+
       const data = {
-        ...payment,
-        detalhes: pay.description,
+        ...pay,
         projeto_id: project._id,
-        valor: pay.valuePay,
+        orcamento_id: budget._id,
+        cliente_id: cliente_id._id,
+        profissional_id: profissional_id._id,
+        detalhes: pay.description,
+        valor: moneyUsFormat(pay.valuePay),
         data_pgto: pay.datePay
       };
 
@@ -120,7 +126,7 @@ function PaymentRegister(props) {
                 onChangeText={val => {
                   const newPay = {
                     ...pay,
-                    valuePay: moneyUsFormat(val)
+                    valuePay: moneyBrFormat(val)
                   };
                   setPay(newPay);
                 }}
