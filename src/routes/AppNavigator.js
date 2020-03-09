@@ -1,25 +1,26 @@
-import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+/* eslint-disable prettier/prettier */
+import React from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
 
-import StepsList from "../pages/private/Steps/StepsList";
-import StepRegister from "../pages/private/Steps/StepRegister";
-import ProjectsList from "../pages/private/Projects/ProjectsList";
-import ProjectRegister from "../pages/private/Projects/ProjectRegister";
-import DetailsList from "../pages/private/Details/DetailsList";
-import DetailRegister from "../pages/private/Details/DetailRegister";
-import ProjectMenu from "../pages/private/Projects/ProjectMenu";
-import BudgetList from "../pages/private/Budget/BudgetList";
-import BudgetRegister from "../pages/private/Budget/BudgetRegister";
-import BudgetListItems from "../pages/private/BudgetItems/BudgetListItems";
-import BudgetItemRegister from "../pages/private/BudgetItems/BudgetItemRegister";
-import BudgetMenu from "../pages/private/Budget/BudgetMenu";
-import StepMenu from "../pages/private/Steps/StepMenu";
-import PictureCamera from "../pages/private/Picture/PictureCamera";
-import PictureList from "../pages/private/Picture/PictureList";
-import Home from "../pages/private/Home";
-import PictureGallery from "../pages/private/Picture/PictureGallary";
-import PaymentsList from "../pages/private/Payments/PaymentsList";
-import PaymentRegister from "../pages/private/Payments/PaymentRegister";
+import StepsList from '../pages/private/Steps/StepsList';
+import StepRegister from '../pages/private/Steps/StepRegister';
+import ProjectsList from '../pages/private/Projects/ProjectsList';
+import ProjectRegister from '../pages/private/Projects/ProjectRegister';
+import DetailsList from '../pages/private/Details/DetailsList';
+import DetailRegister from '../pages/private/Details/DetailRegister';
+import ProjectMenu from '../pages/private/Projects/ProjectMenu';
+import BudgetList from '../pages/private/Budget/BudgetList';
+import BudgetRegister from '../pages/private/Budget/BudgetRegister';
+import BudgetListItems from '../pages/private/BudgetItems/BudgetListItems';
+import BudgetItemRegister from '../pages/private/BudgetItems/BudgetItemRegister';
+import BudgetMenu from '../pages/private/Budget/BudgetMenu';
+import StepMenu from '../pages/private/Steps/StepMenu';
+import PictureCamera from '../pages/private/Picture/PictureCamera';
+import PictureList from '../pages/private/Picture/PictureList';
+import Home from '../pages/private/Home';
+import PictureGallery from '../pages/private/Picture/PictureGallary';
+import PaymentsList from '../pages/private/Payments/PaymentsList';
+import PaymentRegister from '../pages/private/Payments/PaymentRegister';
 
 const AppStack = createStackNavigator();
 
@@ -28,10 +29,10 @@ function AppNavigator() {
   return (
     <AppStack.Navigator
       screenOptions={{
-        headerTitleAlign: "center",
-        headerTintColor: "#FFF", //"#3C4858",
+        headerTitleAlign: 'center',
+        headerTintColor: '#FFF',
         headerStyle: {
-          backgroundColor: "#1FB6FF" //"#FF9E7C" //"#F7F7F7"
+          backgroundColor: '#1FB6FF'
         }
       }}
     >
@@ -39,7 +40,7 @@ function AppNavigator() {
         name="Home"
         component={Home}
         options={{
-          title: "GerenciArqui"
+          title: 'GerenciArqui'
         }}
       />
 
@@ -47,7 +48,7 @@ function AppNavigator() {
         name="Steps"
         component={StepsList}
         options={{
-          title: "Todas as Etapas"
+          title: 'Todas as Etapas'
         }}
       />
 
@@ -55,7 +56,7 @@ function AppNavigator() {
         name="StepRegister"
         component={StepRegister}
         options={{
-          title: "Nova Etapa"
+          title: 'Nova Etapa'
         }}
       />
 
@@ -63,7 +64,7 @@ function AppNavigator() {
         name="Projects"
         component={ProjectsList}
         options={{
-          title: "Meus Projetos"
+          title: 'Meus Projetos'
         }}
       />
 
@@ -71,7 +72,7 @@ function AppNavigator() {
         name="ProjectRegister"
         component={ProjectRegister}
         options={{
-          title: "Novo Projeto"
+          title: 'Novo Projeto'
         }}
       />
 
@@ -79,7 +80,7 @@ function AppNavigator() {
         name="Details"
         component={DetailsList}
         options={{
-          title: "Todos os detalhes"
+          title: 'Todos os detalhes'
         }}
       />
 
@@ -87,7 +88,7 @@ function AppNavigator() {
         name="DetailRegister"
         component={DetailRegister}
         options={{
-          title: "Novo Detalhe"
+          title: 'Novo Detalhe'
         }}
       />
 
@@ -96,7 +97,7 @@ function AppNavigator() {
         component={ProjectMenu}
         options={({ route }) => ({
           title: route.params.title
-          //title: "Projeto Atual"
+          // title: "Projeto Atual"
         })}
       />
 
@@ -104,7 +105,7 @@ function AppNavigator() {
         name="Budgets"
         component={BudgetList}
         options={{
-          title: "Todos os orçamentos"
+          title: 'Todos os orçamentos'
         }}
       />
 
@@ -112,7 +113,7 @@ function AppNavigator() {
         name="BudgetRegister"
         component={BudgetRegister}
         options={{
-          title: "Novo Orçamento"
+          title: 'Novo Orçamento'
         }}
       />
 
@@ -120,7 +121,7 @@ function AppNavigator() {
         name="BudgetListItems"
         component={BudgetListItems}
         options={{
-          title: "Todos os itens"
+          title: 'Todos os itens'
         }}
       />
 
@@ -136,7 +137,7 @@ function AppNavigator() {
         name="BudgetItemRegister"
         component={BudgetItemRegister}
         options={{
-          title: "Novo item"
+          title: 'Novo item'
         }}
       />
 
@@ -152,7 +153,7 @@ function AppNavigator() {
         name="PictureCamera"
         component={PictureCamera}
         options={{
-          title: "Câmera"
+          title: 'Câmera'
         }}
       />
 
@@ -160,7 +161,7 @@ function AppNavigator() {
         name="PictureList"
         component={PictureList}
         options={{
-          title: "Todas as imagens"
+          title: 'Todas as imagens'
         }}
       />
 
@@ -168,7 +169,7 @@ function AppNavigator() {
         name="PictureGallery"
         component={PictureGallery}
         options={{
-          title: "Procurar Imagem"
+          title: 'Procurar Imagem'
         }}
       />
 
@@ -176,7 +177,7 @@ function AppNavigator() {
         name="PaymentRegister"
         component={PaymentRegister}
         options={{
-          title: "Novo Pagamento"
+          title: 'Novo Pagamento'
         }}
       />
 
@@ -184,7 +185,7 @@ function AppNavigator() {
         name="PaymentsList"
         component={PaymentsList}
         options={{
-          title: "Todos os pagamentos"
+          title: 'Todos os pagamentos'
         }}
       />
     </AppStack.Navigator>

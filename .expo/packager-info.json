@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": null,
+  "expoServerPort": 19000,
   "packagerPort": null,
   "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "expoServerNgrokUrl": "https://4d-jgu.mranderson86.gerenciarqui.exp.direct",
+  "packagerNgrokUrl": "https://packager.4d-jgu.mranderson86.gerenciarqui.exp.direct",
+  "ngrokPid": 7891,
   "webpackServerPort": null
 }

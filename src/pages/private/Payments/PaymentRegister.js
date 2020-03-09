@@ -35,7 +35,7 @@ function PaymentRegister(props) {
 
   const [show, setShow] = useState(false);
   const [error, setErr] = useState(false);
-  const [dateModal, setDateModal] = useState(false);
+  const [showCalendary, setShowCalendary] = useState(false);
 
   const headers = {
     authorization: `Bearer ${token}`
@@ -155,19 +155,19 @@ function PaymentRegister(props) {
               placeholder="99/99/9999"
               onFocus={e => {
                 Keyboard.dismiss();
-                setDateModal(true);
+                setShowCalendary(true);
               }}
             />
           </View>
 
-          {dateModal && (
+          {showCalenday && (
             <DateTimePicker
               testID="dateTimePicker"
               timeZoneOffsetInMinutes={0}
               value={new Date()}
               mode="date"
               onChange={(evt, date) => {
-                setDateModal(false);
+                setShowCalendary(false);
 
                 const newPay = {
                   ...pay,

@@ -1,7 +1,8 @@
-import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+/* eslint-disable prettier/prettier */
+import React from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
 
-import Login from "../pages/public/Login";
+import Login from '../pages/public/Login';
 
 const AuthStack = createStackNavigator();
 
@@ -10,10 +11,10 @@ function AuthNavigator() {
   return (
     <AuthStack.Navigator
       screenOptions={{
-        headerTitleAlign: "center",
-        headerTintColor: "#FFFFFF",
+        headerTitleAlign: 'center',
+        headerTintColor: '#FFFFFF',
         headerStyle: {
-          backgroundColor: "#F7F7F7"
+          backgroundColor: '#F7F7F7'
         }
       }}
     >

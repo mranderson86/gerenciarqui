@@ -7,8 +7,10 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Keyboard
 } from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import { MaterialIcons } from "@expo/vector-icons";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -16,6 +18,8 @@ import { bindActionCreators } from "redux";
 import api from "../../../services/Api";
 import { UserAction } from "../../../store/Users/userAction";
 import Result from "../../../components/Result/Result";
+
+import { dateBrFormat } from "../../../utils/utils";
 
 // Tela Lista de Etapas
 function BudgetRegister(props) {
@@ -26,6 +30,7 @@ function BudgetRegister(props) {
 
   const [show, setShow] = useState(false);
   const [error, setErr] = useState(false);
+  const [showCalendary, setShowCalendary] = useState(false);
 
   const headers = {
     authorization: `Bearer ${token}`
@@ -240,11 +245,28 @@ function BudgetRegister(props) {
                 <TextInput
                   keyboardType="default"
                   style={styles.input}
-                  value={validate}
-                  placeholder="Digite aqui"
-                  onChangeText={val => setValidate(val)}
+                  value={validate.toString()}
+                  placeholder="99/99/9999"
+                  onFocus={e => {
+                    Keyboard.dismiss();
+                    setShowCalendary(true);
+                  }}
                 />
               </View>
+
+              {showCalendary && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  timeZoneOffsetInMinutes={0}
+                  value={new Date()}
+                  mode="date"
+                  onChange={(evt, date) => {
+                    setShowCalendary(false);
+
+                    setValidate(dateBrFormat(date));
+                  }}
+                />
+              )}
             </View>
             <View style={styles.buttonSaveContainer}>
               <TouchableOpacity

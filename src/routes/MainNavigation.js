@@ -1,9 +1,9 @@
-import React from "react";
-import { connect } from "react-redux";
-import { NavigationContainer } from "@react-navigation/native";
+import React from 'react';
+import { connect } from 'react-redux';
+import { NavigationContainer } from '@react-navigation/native';
 
-import AuthNavigator from "../routes/AuthNavigator";
-import AppNavigator from "../routes/AppNavigator";
+import AuthNavigator from './AuthNavigator';
+import AppNavigator from './AppNavigator';
 
 // Cria o menu de navegação
 // Autenticação e Cadastro
@@ -27,9 +27,7 @@ function MainNavigator(props) {
   const { authenticate } = userLogin;
 
   return (
-    <NavigationContainer>
-      {authenticate ? <AppNavigator /> : <AuthNavigator />}
-    </NavigationContainer>
+    <NavigationContainer>{authenticate ? <AppNavigator /> : <AuthNavigator />}</NavigationContainer>
   );
 }
 

@@ -24,6 +24,8 @@ import AuthRender from "../AuthRender";
 function CardItem(props) {
   const { item, navigation, Delete, profissional } = props;
 
+  console.log(item.url);
+
   const pathImage = {
     uri: `${item.url}`
   };
