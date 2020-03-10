@@ -1,27 +1,22 @@
-import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  TouchableOpacity
-} from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
+/* eslint-disable prettier/prettier */
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import api from "../../../services/Api";
-import { UserAction } from "../../../store/Users/userAction";
-import { ProjectCurrentAction } from "../../../store/Projects/projectAction";
+import api from '../../../services/Api';
+import { UserAction } from '../../../store/Users/userAction';
+import { ProjectCurrentAction } from '../../../store/Projects/projectAction';
 
-import Result from "../../../components/Result/Result";
+import Result from '../../../components/Result/Result';
 
-import AuthRender from "../AuthRender";
+import AuthRender from '../AuthRender';
 
 // Renderiza o card de cada etapa
 function CardItem(props) {
-  const { item, navigation, Delete, LoadDashboard, profissional } = props;
+  const { item, navigation, LoadDashboard, profissional } = props;
 
   return (
     <TouchableOpacity
@@ -35,17 +30,13 @@ function CardItem(props) {
           <Text style={styles.cardItemValue}>{item.nome}</Text>
 
           <Text style={styles.cardItemLabel}>Situação</Text>
-          <Text style={styles.cardItemValue}>
-            {item.ativo ? "Ativo" : "Desativado"}
-          </Text>
+          <Text style={styles.cardItemValue}>{item.ativo ? 'Ativo' : 'Desativado'}</Text>
         </View>
 
         <AuthRender auth={profissional}>
           <TouchableOpacity
-            style={{ paddingLeft: "1%" }}
-            onPress={() =>
-              navigation.navigate("ProjectRegister", { step: item, edit: true })
-            }
+            style={{ paddingLeft: '1%' }}
+            onPress={() => navigation.navigate('ProjectRegister', { step: item, edit: true })}
           >
             <MaterialIcons name="edit" size={30} color="#1FB6FF" />
           </TouchableOpacity>
@@ -82,7 +73,7 @@ function ProjectsList(props) {
         }
       });
 
-      const data = response.data;
+      const { data } = response;
 
       if (data) {
         setProjects(data);
@@ -92,7 +83,7 @@ function ProjectsList(props) {
 
       setShow(false);
     } catch (err) {
-      console.log("load ", err);
+      console.log('load ', err);
     }
   }
 
@@ -109,19 +100,10 @@ function ProjectsList(props) {
 
       Load();
     } catch (err) {
-      console.log("err", err);
+      console.log('err', err);
 
       setError(true);
     }
-  }
-
-  // Carrega a tela de etapas
-  function LoadStepList(project) {
-    ProjectCurrentAction({
-      project
-    });
-
-    navigation.navigate("Steps");
   }
 
   function LoadDashboard(project) {
@@ -129,7 +111,7 @@ function ProjectsList(props) {
       project
     });
 
-    navigation.navigate("ProjectMenu", { title: project.nome });
+    navigation.navigate('ProjectMenu', { title: project.nome });
   }
 
   if (show && error) {
@@ -149,10 +131,9 @@ function ProjectsList(props) {
         keyExtractor={item => item._id}
         renderItem={({ item }) => (
           <CardItem
-            {...props}
+            navigation={navigation}
             item={item}
             Delete={Delete}
-            //LoadStepList={LoadStepList}
             LoadDashboard={LoadDashboard}
             profissional={profissional}
           />
@@ -162,7 +143,7 @@ function ProjectsList(props) {
       <AuthRender auth={profissional}>
         <TouchableOpacity
           style={styles.buttonSave}
-          onPress={() => navigation.navigate("ProjectRegister")}
+          onPress={() => navigation.navigate('ProjectRegister')}
         >
           <MaterialIcons name="add-circle" size={50} color="#1FB6FF" />
         </TouchableOpacity>
@@ -174,22 +155,22 @@ function ProjectsList(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#E5E9F2"
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#E5E9F2'
   },
   list: {
-    paddingHorizontal: "1%",
-    paddingTop: "1%"
+    paddingHorizontal: '1%',
+    paddingTop: '1%'
   },
   cardContainer: {
     // alinha no eixo horizontal
-    alignItems: "center",
-    backgroundColor: "#fff",
-    padding: "1%",
-    margin: "1%",
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    padding: '1%',
+    margin: '1%',
     borderRadius: 4,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 1
@@ -200,48 +181,48 @@ const styles = StyleSheet.create({
   },
 
   cardItems: {
-    flexDirection: "row",
-    paddingTop: "1%",
-    paddingBottom: "1%"
+    flexDirection: 'row',
+    paddingTop: '1%',
+    paddingBottom: '1%'
   },
 
   cardItemsValueLabel: {
-    flexDirection: "column",
-    width: "90%"
+    flexDirection: 'column',
+    width: '90%'
   },
 
   cardItemLabel: {
-    color: "#888",
-    paddingTop: "1%",
-    paddingBottom: "1%"
+    color: '#888',
+    paddingTop: '1%',
+    paddingBottom: '1%'
   },
 
   cardItemValue: {
-    paddingLeft: "5%",
-    paddingRight: "10%",
-    paddingTop: "1%",
-    paddingBottom: "1%",
-    fontWeight: "bold",
+    paddingLeft: '5%',
+    paddingRight: '10%',
+    paddingTop: '1%',
+    paddingBottom: '1%',
+    fontWeight: 'bold',
     fontSize: 16
   },
 
   cardDetails: {
-    width: "95%",
-    paddingTop: "1%",
-    paddingBottom: "1%",
-    paddingLeft: "1%",
-    backgroundColor: "#F9FAFC"
+    width: '95%',
+    paddingTop: '1%',
+    paddingBottom: '1%',
+    paddingLeft: '1%',
+    backgroundColor: '#F9FAFC'
   },
 
   cardDetailsHeader: {
-    width: "95%",
-    paddingTop: "1%",
-    paddingBottom: "1%",
+    width: '95%',
+    paddingTop: '1%',
+    paddingBottom: '1%',
 
-    backgroundColor: "#C0CCDA",
+    backgroundColor: '#C0CCDA',
     height: 40,
-    alignItems: "center",
-    justifyContent: "center"
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });
 

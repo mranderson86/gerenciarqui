@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable camelcase */
+import React, { useEffect, useState } from 'react';
 import {
-  SafeAreaView,
   Text,
   StyleSheet,
   View,
@@ -9,22 +9,17 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Keyboard
-} from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import { MaterialIcons } from "@expo/vector-icons";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+} from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { MaterialIcons } from '@expo/vector-icons';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import {
-  dateBrFormat,
-  moneyUsFormat,
-  moneyBrFormat,
-  moneyBrMask
-} from "../../../utils/utils";
+import { dateBrFormat, moneyUsFormat, moneyBrFormat, moneyBrMask } from '../../../utils/utils';
 
-import api from "../../../services/Api";
-import { UserAction } from "../../../store/Users/userAction";
-import Result from "../../../components/Result/Result";
+import api from '../../../services/Api';
+import { UserAction } from '../../../store/Users/userAction';
+import Result from '../../../components/Result/Result';
 
 // Tela Lista de Etapas
 function PaymentRegister(props) {
@@ -42,8 +37,8 @@ function PaymentRegister(props) {
   };
 
   const [pay, setPay] = useState({
-    description: "",
-    valuePay: "",
+    description: '',
+    valuePay: '',
     datePay: dateBrFormat(new Date())
   });
 
@@ -81,19 +76,19 @@ function PaymentRegister(props) {
       setShow(true);
 
       if (edit) {
-        const response = await api.put(`/pagamentos/${payment._id}`, data, {
-          headers: headers
+        await api.put(`/pagamentos/${payment._id}`, data, {
+          headers
         });
       } else {
-        const response = await api.post("/pagamentos", data, {
-          headers: headers
+        await api.post('/pagamentos', data, {
+          headers
         });
       }
 
       // Retorna para a lista de pagamentos
-      navigation.navigate("PaymentsList", { reloading: true });
+      navigation.navigate('PaymentsList', { reloading: true });
     } catch (err) {
-      console.log("error", err);
+      console.log('error', err);
       setErr(true);
     }
   }
@@ -109,7 +104,7 @@ function PaymentRegister(props) {
   //  Renderiza cada etapa da lista de Etapa
   return (
     <KeyboardAvoidingView behavior="padding" enabled>
-      <ScrollView style={{ width: "100%", height: "100%" }}>
+      <ScrollView style={{ width: '100%', height: '100%' }}>
         <View style={styles.formContainer}>
           <View style={styles.inputContainer100perc}>
             <Text style={styles.label}>Descrição</Text>
@@ -153,14 +148,14 @@ function PaymentRegister(props) {
               style={styles.input}
               value={pay.datePay.toString()}
               placeholder="99/99/9999"
-              onFocus={e => {
+              onFocus={() => {
                 Keyboard.dismiss();
                 setShowCalendary(true);
               }}
             />
           </View>
 
-          {showCalenday && (
+          {showCalendary && (
             <DateTimePicker
               testID="dateTimePicker"
               timeZoneOffsetInMinutes={0}
@@ -192,132 +187,132 @@ function PaymentRegister(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //justifyContent: 'center',
-    alignItems: "center",
-    backgroundColor: "#E5E9F2"
+    // justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#E5E9F2'
   },
 
   formContainer: {
-    backgroundColor: "#FFF",
-    //width: "100%",
-    marginTop: "5%",
-    marginHorizontal: "2%"
-    //padding: '2%'
+    backgroundColor: '#FFF',
+    // width: "100%",
+    marginTop: '5%',
+    marginHorizontal: '2%'
+    // padding: '2%'
   },
 
   detailsContainer: {
-    alignItems: "center"
+    alignItems: 'center'
   },
 
   containerInputValueRow: {
-    flexDirection: "row"
+    flexDirection: 'row'
   },
 
   containerInputValueRowCheck: {
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    width: "50%",
-    paddingLeft: "5%",
-    paddingRight: "5%",
-    paddingTop: "4%",
-    paddingBottom: "4%"
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    width: '50%',
+    paddingLeft: '5%',
+    paddingRight: '5%',
+    paddingTop: '4%',
+    paddingBottom: '4%'
   },
 
   inputContainer100perc: {
-    paddingLeft: "5%",
-    paddingRight: "5%",
-    paddingTop: "4%",
-    paddingBottom: "4%"
+    paddingLeft: '5%',
+    paddingRight: '5%',
+    paddingTop: '4%',
+    paddingBottom: '4%'
   },
 
   inputContainer: {
-    width: "50%",
-    paddingLeft: "5%",
-    paddingRight: "5%",
-    paddingTop: "4%",
-    paddingBottom: "4%"
+    width: '50%',
+    paddingLeft: '5%',
+    paddingRight: '5%',
+    paddingTop: '4%',
+    paddingBottom: '4%'
   },
 
   label: {
-    color: "#666"
+    color: '#666'
   },
 
   input: {
-    borderBottomColor: "#888",
+    borderBottomColor: '#888',
     borderBottomWidth: 1,
     height: 40
   },
 
   inputDetails: {
-    borderBottomColor: "#888",
+    borderBottomColor: '#888',
     borderBottomWidth: 1,
     width: 280,
     height: 40
   },
 
   buttonDetails: {
-    paddingLeft: "2%"
+    paddingLeft: '2%'
   },
 
   detailsList: {
-    width: "95%",
-    //backgroundColor: '#000',
-    marginBottom: "5%"
+    width: '95%',
+    // backgroundColor: '#000',
+    marginBottom: '5%'
   },
 
   detailsHeader: {
-    backgroundColor: "#C0CCDA",
-    width: "100%",
+    backgroundColor: '#C0CCDA',
+    width: '100%',
     height: 40,
-    alignItems: "center",
-    justifyContent: "center"
+    alignItems: 'center',
+    justifyContent: 'center'
   },
 
   rowDetails: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: "1%",
-    borderBottomColor: "#EFF2F7",
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: '1%',
+    borderBottomColor: '#EFF2F7',
     borderBottomWidth: 1
   },
 
   labelDetail: {
     width: 260
-    //backgroundColor: '#000'
+    // backgroundColor: '#000'
   },
 
   buttonSaveContainer: {
-    //justifyContent: 'center',
-    alignItems: "center",
-    marginTop: "5%",
-    marginBottom: "5%"
+    // justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: '5%',
+    marginBottom: '5%'
   },
 
   buttonSave: {
     width: 200,
     height: 40,
-    backgroundColor: "#1FB6FF",
-    flexDirection: "row",
-    //justifyContent: 'center'
-    alignItems: "center"
+    backgroundColor: '#1FB6FF',
+    flexDirection: 'row',
+    // justifyContent: 'center'
+    alignItems: 'center'
   },
 
   labelButtonSave: {
-    color: "#FFF",
-    fontWeight: "bold",
-    width: "80%",
-    //backgroundColor: '#000',
-    paddingLeft: "30%"
-    //paddingRight: '10%'
+    color: '#FFF',
+    fontWeight: 'bold',
+    width: '80%',
+    // backgroundColor: '#000',
+    paddingLeft: '30%'
+    // paddingRight: '10%'
   },
 
   labelValueReadOnly: {
-    color: "#FFF",
+    color: '#FFF',
     fontSize: 18,
-    fontWeight: "bold",
-    backgroundColor: "#C0CCDA",
+    fontWeight: 'bold',
+    backgroundColor: '#C0CCDA',
     height: 40,
-    textAlign: "center"
+    textAlign: 'center'
   }
 });
 

@@ -1,28 +1,22 @@
-import React, { useEffect, useState } from "react";
-import {
-  View,
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-  Image
-} from "react-native";
-import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
+import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import api, { apiURL } from "../../../services/Api";
-import { UserAction } from "../../../store/Users/userAction";
-import { ProjectCurrentAction } from "../../../store/Projects/projectAction";
+import api from '../../../services/Api';
+import { UserAction } from '../../../store/Users/userAction';
+import { ProjectCurrentAction } from '../../../store/Projects/projectAction';
 
-import Result from "../../../components/Result/Result";
-import Separator from "../../../components/Separator/Separator";
+import Result from '../../../components/Result/Result';
+import Separator from '../../../components/Separator/Separator';
 
-import AuthRender from "../AuthRender";
+import AuthRender from '../AuthRender';
 
 // Renderiza o card de cada etapa
 function CardItem(props) {
-  const { item, navigation, Delete, profissional } = props;
+  const { item, Delete, profissional } = props;
 
   console.log(item.url);
 
@@ -44,14 +38,14 @@ function CardItem(props) {
 
 // Tela Lista de Projetos
 function PictureList(props) {
-  const { userLogin, ProjectCurrentAction, navigation, route } = props;
+  const { userLogin, navigation, route } = props;
   const { token, profissional } = userLogin;
 
   const { reload } = route.params;
 
   const [images, setImages] = useState([]);
   const [show, setShow] = useState(false);
-  const [error, setError] = useState(false);
+  const [error] = useState(false);
 
   // carrega a lista das etapas
   useEffect(() => {
@@ -69,7 +63,7 @@ function PictureList(props) {
         }
       });
 
-      const data = response.data;
+      const { data } = response;
 
       if (data) {
         setImages(data);
@@ -79,12 +73,12 @@ function PictureList(props) {
 
       setShow(false);
     } catch (err) {
-      console.log("load ", err);
+      console.log('load ', err);
     }
   }
 
   // Exclui um projeto da lista
-  async function Delete(id) {}
+  // async function Delete(id) {}
 
   if (show && error) {
     return <Result type="error" />;
@@ -100,23 +94,12 @@ function PictureList(props) {
       <FlatList
         data={images}
         keyExtractor={item => item._id}
-        renderItem={({ item }) => (
-          <CardItem
-            {...props}
-            item={item}
-            Delete={Delete}
-            profissional={profissional}
-          />
-        )}
+        renderItem={({ item }) => <CardItem item={item} profissional={profissional} />}
         ItemSeparatorComponent={() => <Separator />}
       />
 
       <AuthRender auth={profissional}>
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate("PictureGallery", { reload: false })
-          }
-        >
+        <TouchableOpacity onPress={() => navigation.navigate('PictureGallery', { reload: false })}>
           <MaterialCommunityIcons name="image-plus" size={50} color="#1FB6FF" />
         </TouchableOpacity>
       </AuthRender>
@@ -127,23 +110,23 @@ function PictureList(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    //alignItems: "center",
-    backgroundColor: "#E5E9F2"
+    justifyContent: 'center',
+    // alignItems: "center",
+    backgroundColor: '#E5E9F2'
   },
 
   cardContainer: {
     // alinha no eixo horizontal
     flex: 1,
-    flexDirection: "row",
-    padding: "1%",
-    backgroundColor: "#FFF"
+    flexDirection: 'row',
+    padding: '1%',
+    backgroundColor: '#FFF'
   },
 
   imageContainer: {
-    width: "90%",
+    width: '90%',
     height: 200,
-    flexDirection: "row",
+    flexDirection: 'row',
     borderRadius: 5
   }
 });

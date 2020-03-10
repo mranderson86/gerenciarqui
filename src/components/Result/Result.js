@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ActivityIndicator, Text, StyleSheet } from 'react-native';
+import { View, ActivityIndicator, Text } from 'react-native';
 
 import { MaterialIcons } from '@expo/vector-icons';
 

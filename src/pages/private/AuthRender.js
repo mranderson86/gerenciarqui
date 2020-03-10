@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 // Renderiza apenas elementos Autorizados ao usuário.
 function AuthRender(props) {

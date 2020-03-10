@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { Camera } from "expo-camera";
-import { MaterialIcons } from "@expo/vector-icons";
+/* eslint-disable prettier/prettier */
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Camera } from 'expo-camera';
+import { MaterialIcons } from '@expo/vector-icons';
 
-import Result from "../../../components/Result/Result";
+import Result from '../../../components/Result/Result';
 
 // Câmera
 function PictureCamera({ handleImageFromCamera }) {
   const [hasPermission, setHasPermission] = useState(null);
-  const [type, setType] = useState(Camera.Constants.Type.back);
+  const [type] = useState(Camera.Constants.Type.back);
   const [camera, setCamera] = useState(null);
 
   useEffect(() => {
@@ -18,12 +19,12 @@ function PictureCamera({ handleImageFromCamera }) {
   // Solicita a permissão de utilização da câmera
   async function RequireCamera() {
     const { status } = await Camera.requestPermissionsAsync();
-    setHasPermission(status === "granted");
+    setHasPermission(status === 'granted');
   }
 
   async function takeImageFromCameraAsync() {
     if (camera) {
-      let image = await camera.takePictureAsync();
+      const image = await camera.takePictureAsync();
       handleImageFromCamera(image);
     }
   }
@@ -48,14 +49,14 @@ function PictureCamera({ handleImageFromCamera }) {
         <View
           style={{
             flex: 1,
-            backgroundColor: "transparent",
-            flexDirection: "row"
+            backgroundColor: 'transparent',
+            flexDirection: 'row'
           }}
         >
           <TouchableOpacity
             style={{
-              alignSelf: "flex-end",
-              alignItems: "center"
+              alignSelf: 'flex-end',
+              alignItems: 'center'
             }}
             onPress={() => takeImageFromCameraAsync()}
           >
@@ -70,12 +71,12 @@ function PictureCamera({ handleImageFromCamera }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1
-    //justifyContent: "center",
-    //alignItems: "center"
+    // justifyContent: "center",
+    // alignItems: "center"
   },
   camera: {
     flex: 1,
-    alignItems: "center"
+    alignItems: 'center'
   }
 });
 

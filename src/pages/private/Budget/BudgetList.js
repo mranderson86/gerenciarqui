@@ -1,40 +1,27 @@
-import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  SafeAreaView,
-  TouchableOpacity
-} from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
+/* eslint-disable prettier/prettier */
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, FlatList, SafeAreaView, TouchableOpacity } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import api from "../../../services/Api";
-import { BudgetCurrentAction } from "../../../store/Projects/projectAction";
+import api from '../../../services/Api';
+import { BudgetCurrentAction } from '../../../store/Projects/projectAction';
 
-import Result from "../../../components/Result/Result";
-import AuthRender from "../AuthRender";
-import { moneyBrFormat } from "../../../utils/utils";
+import Result from '../../../components/Result/Result';
+import AuthRender from '../AuthRender';
+import { moneyBrFormat } from '../../../utils/utils';
 
 // Renderiza o card de cada etapa
 function CardItem(props) {
-  const {
-    budget,
-    navigation,
-    deleteBudget,
-    loadBudgetMenu,
-    editBudget,
-    profissional
-  } = props;
+  const { budget, deleteBudget, loadBudgetMenu, editBudget, profissional } = props;
 
   return (
     <TouchableOpacity
       activeOpacity={0.9}
       style={styles.cardContainer}
-      //onPress={() => loadBudgetListItems(budget)}
+      // onPress={() => loadBudgetListItems(budget)}
       onPress={() => loadBudgetMenu(budget)}
     >
       <View style={styles.cardItems}>
@@ -43,19 +30,15 @@ function CardItem(props) {
           <Text style={styles.cardItemValue}>{budget.descricao}</Text>
 
           <Text style={styles.cardItemLabel}>Valor Total</Text>
-          <Text style={styles.cardItemValue}>
-            {moneyBrFormat(budget.valor_total || 0.0)}
-          </Text>
+          <Text style={styles.cardItemValue}>{moneyBrFormat(budget.valor_total || 0.0)}</Text>
 
           <Text style={styles.cardItemLabel}>Valor Pago</Text>
-          <Text style={styles.cardItemValue}>
-            {moneyBrFormat(budget.valor_pago)}
-          </Text>
+          <Text style={styles.cardItemValue}>{moneyBrFormat(budget.valor_pago)}</Text>
         </View>
 
         <AuthRender auth={profissional}>
           <TouchableOpacity
-            style={{ paddingLeft: "5%", paddingRight: "1%" }}
+            style={{ paddingLeft: '5%', paddingRight: '1%' }}
             onPress={() => editBudget(budget)}
           >
             <MaterialIcons name="edit" size={30} color="#1FB6FF" />
@@ -72,13 +55,7 @@ function CardItem(props) {
 
 // Tela Lista de Etapas
 function BudgetList(props) {
-  const {
-    BudgetCurrentAction,
-    userProjects,
-    userLogin,
-    navigation,
-    route
-  } = props;
+  const { BudgetCurrentAction, userProjects, userLogin, navigation, route } = props;
   const { token, profissional } = userLogin;
   const { project, reload } = userProjects;
 
@@ -104,7 +81,7 @@ function BudgetList(props) {
         }
       });
 
-      const data = response.data;
+      const { data } = response;
 
       if (data) {
         setBudgets(data);
@@ -114,7 +91,7 @@ function BudgetList(props) {
 
       setShow(false);
     } catch (err) {
-      console.log("err ", err);
+      console.log('err ', err);
       setErr(true);
     }
   }
@@ -123,7 +100,7 @@ function BudgetList(props) {
     try {
       setShow(true);
 
-      const response = await api.delete(`/orcamentos/${id}`, {
+      await api.delete(`/orcamentos/${id}`, {
         headers: {
           authorization: `Bearer ${token}`
         }
@@ -131,7 +108,7 @@ function BudgetList(props) {
 
       loadBudgets();
     } catch (err) {
-      console.log("err", err);
+      console.log('err', err);
       setErr(true);
     }
   }
@@ -141,7 +118,7 @@ function BudgetList(props) {
       budget
     });
 
-    navigation.navigate("BudgetRegister", { edit: true });
+    navigation.navigate('BudgetRegister', { edit: true });
   }
 
   // Carrega a tela de cadastro
@@ -150,7 +127,7 @@ function BudgetList(props) {
       budget: {}
     });
 
-    props.navigation.navigate("BudgetRegister", { edit: false });
+    props.navigation.navigate('BudgetRegister', { edit: false });
   }
 
   // Carrega menu de cada orçamento
@@ -159,54 +136,40 @@ function BudgetList(props) {
       budget
     });
 
-    props.navigation.navigate("BudgetMenu", { title: budget.tipo });
+    props.navigation.navigate('BudgetMenu', { title: budget.tipo });
   }
 
-  function loadBudgetListItems(budget) {
-    BudgetCurrentAction({
-      budget
-    });
+  if (show && error) {
+    return <Result type="error" />;
+  }
 
-    props.navigation.navigate("BudgetListItems", { reload: false });
+  if (show && !error) {
+    return <Result type="await" />;
   }
 
   //  Renderiza cada orçamento da lista de orçamentos
   return (
     <SafeAreaView style={styles.container}>
-      {show ? (
-        error ? (
-          <Result type="error" />
-        ) : (
-          <Result type="await" />
-        )
-      ) : (
-        <>
-          <FlatList
-            data={budgets}
-            contentContainerStyle={styles.list}
-            keyExtractor={item => item._id}
-            renderItem={({ item }) => (
-              <CardItem
-                {...props}
-                budget={item}
-                deleteBudget={deleteBudget}
-                loadBudgetMenu={loadBudgetMenu}
-                editBudget={editBudget}
-                profissional={profissional}
-              />
-            )}
+      <FlatList
+        data={budgets}
+        contentContainerStyle={styles.list}
+        keyExtractor={item => item._id}
+        renderItem={({ item }) => (
+          <CardItem
+            budget={item}
+            deleteBudget={deleteBudget}
+            loadBudgetMenu={loadBudgetMenu}
+            editBudget={editBudget}
+            profissional={profissional}
           />
+        )}
+      />
 
-          <AuthRender auth={profissional}>
-            <TouchableOpacity
-              style={styles.buttonSave}
-              onPress={() => addNewBudget()}
-            >
-              <MaterialIcons name="add-circle" size={50} color="#1FB6FF" />
-            </TouchableOpacity>
-          </AuthRender>
-        </>
-      )}
+      <AuthRender auth={profissional}>
+        <TouchableOpacity style={styles.buttonSave} onPress={() => addNewBudget()}>
+          <MaterialIcons name="add-circle" size={50} color="#1FB6FF" />
+        </TouchableOpacity>
+      </AuthRender>
     </SafeAreaView>
   );
 }
@@ -214,26 +177,26 @@ function BudgetList(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#E5E9F2"
-    //marginTop: Constants.statusBarHeight
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#E5E9F2'
+    // marginTop: Constants.statusBarHeight
   },
   list: {
-    //marginTop: Constants.statusBarHeight,
-    paddingHorizontal: "1%",
-    paddingTop: "1%"
-    //backgroundColor: '#000',
+    // marginTop: Constants.statusBarHeight,
+    paddingHorizontal: '1%',
+    paddingTop: '1%'
+    // backgroundColor: '#000',
   },
   cardContainer: {
     // alinha no eixo horizontal
-    alignItems: "center",
-    backgroundColor: "#fff",
-    padding: "1%",
-    margin: "1%",
-    //width: 380,
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    padding: '1%',
+    margin: '1%',
+    // width: 380,
     borderRadius: 4,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 1
@@ -244,61 +207,61 @@ const styles = StyleSheet.create({
   },
 
   cardItems: {
-    flexDirection: "row",
-    //backgroundColor: "#232334",
-    width: "95%",
-    paddingTop: "1%",
-    paddingBottom: "1%"
+    flexDirection: 'row',
+    // backgroundColor: "#232334",
+    width: '95%',
+    paddingTop: '1%',
+    paddingBottom: '1%'
   },
 
   cardItemsValueLabel: {
-    flexDirection: "column",
-    width: "80%"
-    //backgroundColor: 'red',
+    flexDirection: 'column',
+    width: '80%'
+    // backgroundColor: 'red',
   },
 
   cardItemLabel: {
-    color: "#888",
-    //backgroundColor: 'yellow',
-    paddingTop: "1%",
-    paddingBottom: "1%",
-    fontWeight: "bold",
+    color: '#888',
+    // backgroundColor: 'yellow',
+    paddingTop: '1%',
+    paddingBottom: '1%',
+    fontWeight: 'bold',
     fontSize: 16
   },
 
   cardItemValue: {
-    paddingLeft: "5%",
-    paddingRight: "10%",
-    //width: '50%',
-    //backgroundColor: 'blue',
-    paddingTop: "1%",
-    paddingBottom: "1%",
-    fontWeight: "bold"
-    //fontSize: 16
+    paddingLeft: '5%',
+    paddingRight: '10%',
+    // width: '50%',
+    // backgroundColor: 'blue',
+    paddingTop: '1%',
+    paddingBottom: '1%',
+    fontWeight: 'bold'
+    // fontSize: 16
   },
 
   cardDetails: {
-    width: "95%",
-    paddingTop: "1%",
-    paddingBottom: "1%",
-    paddingLeft: "1%",
-    backgroundColor: "#F9FAFC"
-    //backgroundColor: '#EFF2F7'
-    //backgroundColor: '#000'
+    width: '95%',
+    paddingTop: '1%',
+    paddingBottom: '1%',
+    paddingLeft: '1%',
+    backgroundColor: '#F9FAFC'
+    // backgroundColor: '#EFF2F7'
+    // backgroundColor: '#000'
   },
 
   cardDetailsHeader: {
     // alignItems: 'center',
     // borderBottomColor: '#ccc',
     // borderBottomWidth: 1,
-    width: "95%",
-    paddingTop: "1%",
-    paddingBottom: "1%",
+    width: '95%',
+    paddingTop: '1%',
+    paddingBottom: '1%',
 
-    backgroundColor: "#C0CCDA",
+    backgroundColor: '#C0CCDA',
     height: 40,
-    alignItems: "center",
-    justifyContent: "center"
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });
 

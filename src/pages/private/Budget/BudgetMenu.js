@@ -1,26 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
+/* eslint-disable prettier/prettier */
+import React, { useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import { UserAction } from "../../../store/Users/userAction";
-import {
-  ProjectCurrentAction,
-  StepCurrentAction
-} from "../../../store/Projects/projectAction";
-
-import Result from "../../../components/Result/Result";
+import { UserAction } from '../../../store/Users/userAction';
+import { ProjectCurrentAction, StepCurrentAction } from '../../../store/Projects/projectAction';
 
 // Tela Home / Bem Vindo
 function BudgetMenu(props) {
   const { navigation } = props;
-  const { userLogin, userProjects } = props;
-  const { user } = userLogin;
-  const { step } = userProjects;
-
-  const [stepName, setStepName] = useState(null);
 
   useEffect(() => {}, []);
 
@@ -31,7 +22,7 @@ function BudgetMenu(props) {
         activeOpacity={0.9}
         style={styles.cardContainer}
         onPress={() => {
-          navigation.navigate("BudgetListItems", { reloading: false });
+          navigation.navigate('BudgetListItems', { reloading: false });
         }}
       >
         <View style={styles.cardItems}>
@@ -47,7 +38,7 @@ function BudgetMenu(props) {
         activeOpacity={0.9}
         style={styles.cardContainer}
         onPress={() => {
-          navigation.navigate("PaymentsList", { reload: false });
+          navigation.navigate('PaymentsList', { reload: false });
         }}
       >
         <View style={styles.cardItems}>
@@ -65,26 +56,26 @@ function BudgetMenu(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    backgroundColor: "#E5E9F2"
+    alignItems: 'center',
+    backgroundColor: '#E5E9F2'
   },
 
   userContainer: {
-    width: "100%",
-    height: "20%",
-    padding: "5%"
+    width: '100%',
+    height: '20%',
+    padding: '5%'
   },
 
   cardContainer: {
     // alinha no eixo horizontal
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#FFF",
-    margin: "1%",
-    width: "95%",
-    height: "20%",
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#FFF',
+    margin: '1%',
+    width: '95%',
+    height: '20%',
     borderRadius: 4,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2
@@ -95,28 +86,28 @@ const styles = StyleSheet.create({
   },
 
   cardItems: {
-    flexDirection: "row",
-    width: "95%",
-    alignItems: "center"
+    flexDirection: 'row',
+    width: '95%',
+    alignItems: 'center'
   },
 
   cardItemsValueLabel: {
-    flexDirection: "column",
-    width: "80%"
+    flexDirection: 'column',
+    width: '80%'
   },
 
   cardItemLabel: {
-    color: "#888",
-    paddingTop: "1%",
-    paddingBottom: "1%"
+    color: '#888',
+    paddingTop: '1%',
+    paddingBottom: '1%'
   },
 
   cardItemValue: {
-    paddingLeft: "5%",
-    paddingRight: "10%",
-    paddingTop: "1%",
-    paddingBottom: "1%",
-    fontWeight: "bold",
+    paddingLeft: '5%',
+    paddingRight: '10%',
+    paddingTop: '1%',
+    paddingBottom: '1%',
+    fontWeight: 'bold',
     fontSize: 16
   }
 });
