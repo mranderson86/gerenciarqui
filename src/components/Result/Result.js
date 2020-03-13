@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ActivityIndicator, Text } from 'react-native';
+import { View, ActivityIndicator, Text, StyleSheet } from 'react-native';
 
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -9,7 +9,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 function Result({ type = 'error' || 'await' || 'success' }) {
   if (type === 'await') {
     return (
-      <View>
+      <View style={styles.container}>
         <ActivityIndicator size="large" color="#1FB6FF" />
         <Text>Aguarde ...</Text>
       </View>
@@ -17,7 +17,7 @@ function Result({ type = 'error' || 'await' || 'success' }) {
   }
   if (type === 'success') {
     return (
-      <View>
+      <View style={styles.container}>
         <MaterialIcons name="check-circle" size={50} color="#13CE66" />
         <Text>Sucesso ...</Text>
       </View>
@@ -25,7 +25,7 @@ function Result({ type = 'error' || 'await' || 'success' }) {
   }
   if (type === 'error') {
     return (
-      <View>
+      <View style={styles.container}>
         <MaterialIcons name="error" size={50} color="#FF4949" />
         <Text>Erro ...</Text>
       </View>
@@ -33,16 +33,16 @@ function Result({ type = 'error' || 'await' || 'success' }) {
   }
 }
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     flexDirection: 'column',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//     backgroundColor: '#FFF',
-//     width: '100%',
-//     height: '100%'
-//   }
-// });
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#FFF',
+    width: '100%',
+    height: '100%'
+  }
+});
 
 export default Result;

@@ -18,8 +18,9 @@ import { bindActionCreators } from 'redux';
 import api from '../../../services/Api';
 import { UserAction } from '../../../store/Users/userAction';
 import Result from '../../../components/Result/Result';
+import ModalMenu from '../../../components/Modal/ModalMenu';
 
-import { dateBrFormat } from '../../../utils/utils';
+import { dateBrFormat, moneyUsFormat, moneyBrFormat, moneyBrMask } from '../../../utils/utils';
 
 // Tela Lista de Etapas
 function BudgetRegister(props) {
@@ -31,27 +32,51 @@ function BudgetRegister(props) {
   const [show, setShow] = useState(false);
   const [error, setErr] = useState(false);
   const [showCalendary, setShowCalendary] = useState(false);
+  const [showModalMenu, setShowModaMenu] = useState(false);
 
   const headers = {
     authorization: `Bearer ${token}`
   };
 
-  const [type, setType] = useState('');
-  const [description, setDescription] = useState('');
-  const [valuePay, setValuePay] = useState('0');
-  const [valueTotal, setValueTotal] = useState(0);
-  const [accept, setAccept] = useState(false);
-  const [status, setStatus] = useState(false);
-  const [typePay, setTypePay] = useState('À Vista');
-  const [counterPay, setCounterPay] = useState(0);
-  const [validate, setValidate] = useState('99/99/9999');
+  // const [type, setType] = useState('');
+  // const [description, setDescription] = useState('');
+  // const [valuePay, setValuePay] = useState('0');
+  // const [valueTotal, setValueTotal] = useState(0);
+  // const [accept, setAccept] = useState(false);
+  // const [status, setStatus] = useState(false);
+  // const [typePay, setTypePay] = useState('À Vista');
+  // const [counterPay, setCounterPay] = useState(0);
+  // const [validate, setValidate] = useState('99/99/9999');
+
+  const [newBudget, setNewBudget] = useState({
+    type: '',
+    description: '',
+    valuePay: '',
+    valueTotal: '0',
+    accept: false,
+    status: false,
+    typePay: '',
+    counterPay: '',
+    validate: dateBrFormat(new Date())
+  });
 
   // carrega dados da etapa
   useEffect(() => {
     if (edit && budget) {
-      setType(budget.tipo);
-      setDescription(budget.descricao);
-      setValueTotal(budget.valor_total || 0);
+      // setType(budget.tipo);
+      // setDescription(budget.descricao);
+      // setValueTotal(budget.valor_total || 0);
+
+      setNewBudget({
+        type: budget.tipo,
+        description: budget.descricao,
+        valueTotal: moneyBrFormat(parseFloat(budget.valor_total || 0).toFixed(2)),
+        valuePay: moneyBrFormat(parseFloat(budget.valor_pago).toFixed(2)),
+        accept: budget.aceito,
+        status: budget.status,
+        counterPay: budget.parcelas || 0,
+        validate: dateBrFormat(budget.valido_ate) || dateBrFormat(new Date())
+      });
     }
   }, []);
 
@@ -60,13 +85,14 @@ function BudgetRegister(props) {
     try {
       const data = {
         ...budget,
-        tipo: type,
-        descricao: description,
+        tipo: newBudget.type,
+        descricao: newBudget.description,
         projeto_id: project._id,
-        valor_pago: valuePay,
-        meio_pagto: typePay,
-        parcelas: counterPay,
-        valor_parcela: 0.0
+        valor_pago: moneyUsFormat(newBudget.valuePay),
+        meio_pagto: newBudget.typePay,
+        parcelas: newBudget.counterPay || 0,
+        valor_parcela: 0.0,
+        valido_ate: new Date(newBudget.validate)
       };
 
       setShow(true);
@@ -89,6 +115,10 @@ function BudgetRegister(props) {
     }
   }
 
+  function hideModalMenu(value) {
+    setShowModaMenu(false);
+  }
+
   if (show && error) {
     return <Result type="error" />;
   }
@@ -106,9 +136,16 @@ function BudgetRegister(props) {
             <Text style={styles.label}>Tipo</Text>
             <TextInput
               style={styles.input}
-              value={type}
+              // value={type}
+              value={newBudget.type}
               placeholder="Digite aqui"
-              onChangeText={val => setType(val)}
+              // onChangeText={val => setType(val)}
+              onChangeText={val => {
+                setNewBudget({
+                  ...newBudget,
+                  type: val
+                });
+              }}
             />
           </View>
 
@@ -116,27 +153,40 @@ function BudgetRegister(props) {
             <Text style={styles.label}>Descrição</Text>
             <TextInput
               style={styles.input}
-              value={description}
+              // value={description}
+              value={newBudget.description}
               placeholder="Digite aqui"
-              onChangeText={val => setDescription(val)}
+              // onChangeText={val => setDescription(val)}
+              onChangeText={val => {
+                setNewBudget({
+                  ...newBudget,
+                  description: val
+                });
+              }}
             />
           </View>
 
           <View style={styles.containerInputValueRow}>
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Valor Total</Text>
-              <TextInput style={styles.labelValueReadOnly}>R$ {valueTotal.toFixed(2)}</TextInput>
+              <TextInput editable={false} style={styles.labelValueReadOnly}>
+                R$ {moneyBrFormat(parseFloat(newBudget.valueTotal).toFixed(2))}
+              </TextInput>
             </View>
 
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Valor Pago</Text>
               <TextInput
+                textAlign="right"
                 keyboardType="numeric"
                 style={styles.input}
-                value={valuePay.toString() || ''}
-                placeholder="Digite aqui"
+                value={newBudget.valuePay.toString()}
+                placeholder="R$ 0,00"
                 onChangeText={val => {
-                  if (val !== '') setValuePay(val);
+                  setNewBudget({
+                    ...newBudget,
+                    valuePay: moneyBrMask(val)
+                  });
                 }}
               />
             </View>
@@ -148,21 +198,40 @@ function BudgetRegister(props) {
               <TextInput
                 keyboardType="default"
                 style={styles.input}
-                value={typePay}
-                placeholder="Digite aqui"
-                onChangeText={val => setTypePay(val)}
+                value={newBudget.typePay}
+                placeholder="À Vista"
+                // onChangeText={val => setTypePay(val)}
+                // onChangeText={val => {
+                //   setNewBudget({
+                //     ...newBudget,
+                //     typePay: val
+                //   });
+                // }}
+                onFocus={() => {
+                  Keyboard.dismiss();
+                  setShowModaMenu(true);
+                }}
               />
             </View>
+
+            {showModalMenu && (
+              <ModalMenu modalVisible={showModalMenu} hideModalMenu={hideModalMenu} />
+            )}
 
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Parcelas</Text>
               <TextInput
                 keyboardType="number-pad"
                 style={styles.input}
-                value={counterPay.toString()}
-                placeholder="Digite aqui"
+                value={newBudget.counterPay.toString()}
+                placeholder="0"
                 onChangeText={val => {
-                  if (val !== '') setCounterPay(val);
+                  // if (val !== '') setCounterPay(val);
+
+                  setNewBudget({
+                    ...newBudget,
+                    counterPay: val
+                  });
                 }}
               />
             </View>
@@ -174,10 +243,19 @@ function BudgetRegister(props) {
               <TouchableOpacity
                 style={{ paddingLeft: '5%', paddingRight: '1%' }}
                 onPress={() => {
-                  setAccept(!accept);
+                  // setAccept(!accept);
+
+                  setNewBudget({
+                    ...newBudget,
+                    accept: !newBudget.accept
+                  });
                 }}
               >
-                <MaterialIcons name="check" size={30} color={accept ? '#13CE66' : '#C0CCDA'} />
+                <MaterialIcons
+                  name="check"
+                  size={30}
+                  color={newBudget.accept ? '#13CE66' : '#C0CCDA'}
+                />
               </TouchableOpacity>
             </View>
 
@@ -186,10 +264,16 @@ function BudgetRegister(props) {
               <TouchableOpacity
                 style={{ paddingLeft: '5%', paddingRight: '1%' }}
                 onPress={() => {
-                  setStatus(!status);
+                  // setStatus(!status);
+
+                  setNewBudget({ ...newBudget, status: !newBudget.status });
                 }}
               >
-                <MaterialIcons name="check" size={30} color={status ? '#13CE66' : '#C0CCDA'} />
+                <MaterialIcons
+                  name="check"
+                  size={30}
+                  color={newBudget.status ? '#13CE66' : '#C0CCDA'}
+                />
               </TouchableOpacity>
             </View>
           </View>
@@ -199,7 +283,7 @@ function BudgetRegister(props) {
             <TextInput
               keyboardType="default"
               style={styles.input}
-              value={validate.toString()}
+              value={newBudget.validate.toString()}
               placeholder="99/99/9999"
               onFocus={() => {
                 Keyboard.dismiss();
@@ -217,7 +301,12 @@ function BudgetRegister(props) {
               onChange={(evt, date) => {
                 setShowCalendary(false);
 
-                setValidate(dateBrFormat(date));
+                // setValidate(dateBrFormat(date));
+
+                setNewBudget({
+                  ...newBudget,
+                  validate: dateBrFormat(date)
+                });
               }}
             />
           )}
