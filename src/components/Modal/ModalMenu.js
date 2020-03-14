@@ -21,13 +21,17 @@ function ModalMenu({ modalVisible, hideModalMenu, title }) {
             />
           </View>
 
-          <Text style={styles.title}>{title}</Text>
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>{title}</Text>
+          </View>
 
-          <ButtonConfirm
-            functionPressed={() => {
-              hideModalMenu(!modalVisible);
-            }}
-          />
+          <View style={styles.menu}>
+            <ButtonConfirm
+              functionPressed={() => {
+                hideModalMenu(!modalVisible);
+              }}
+            />
+          </View>
         </View>
       </View>
     </Modal>
@@ -47,14 +51,21 @@ const styles = StyleSheet.create({
     height: '80%',
     backgroundColor: '#1FB6FF',
     borderRadius: 10,
-    flexDirection: 'column'
-    // alignItems: 'flex-end'
+    flexDirection: 'column',
+    alignItems: 'center'
   },
 
   top: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    margin: 10
+    margin: 10,
+    width: '90%'
+  },
+
+  titleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: '2%'
   },
 
   title: {
@@ -64,6 +75,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     width: '80%'
+  },
+
+  menu: {
+    height: '70%',
+    width: '90%',
+    backgroundColor: '#FFF',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    borderRadius: 10,
+    padding: '2%'
   }
 });
 

@@ -14,16 +14,18 @@ function ButtonConfirm({ functionPressed }) {
 const styles = StyleSheet.create({
   content: {
     flexDirection: 'row',
-    height: '10%',
+    width: '80%',
+    height: '15%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#000000'
+    backgroundColor: '#1FB6FF',
+    borderRadius: 10
   },
   title: {
     color: '#FFFFFF',
     fontSize: 20,
     fontWeight: 'bold',
-    padding: '4%'
+    padding: '2%'
   }
 });
 

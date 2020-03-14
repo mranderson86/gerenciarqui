@@ -217,7 +217,7 @@ function BudgetRegister(props) {
             {showModalMenu && (
               <ModalMenu
                 modalVisible={showModalMenu}
-                title="Escolha qual tipo de pagamento"
+                title="Tipo de Pagamento"
                 hideModalMenu={hideModalMenu}
               />
             )}

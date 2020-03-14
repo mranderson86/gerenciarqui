@@ -10,6 +10,6 @@ function ButtonClose({ functionPressed }) {
   );
 }
 
-const styles = StyleSheet.create({});
+// const styles = StyleSheet.create({});
 
 export default ButtonClose;
