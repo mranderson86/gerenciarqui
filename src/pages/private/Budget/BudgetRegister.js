@@ -215,7 +215,11 @@ function BudgetRegister(props) {
             </View>
 
             {showModalMenu && (
-              <ModalMenu modalVisible={showModalMenu} hideModalMenu={hideModalMenu} />
+              <ModalMenu
+                modalVisible={showModalMenu}
+                title="Escolha qual tipo de pagamento"
+                hideModalMenu={hideModalMenu}
+              />
             )}
 
             <View style={styles.inputContainer}>
@@ -433,7 +437,6 @@ const styles = StyleSheet.create({
     height: 40,
     backgroundColor: '#1FB6FF',
     flexDirection: 'row',
-    // justifyContent: 'center'
     alignItems: 'center'
   },
 

@@ -30,7 +30,7 @@ function AppNavigator() {
     <AppStack.Navigator
       screenOptions={{
         headerTitleAlign: 'center',
-        headerTintColor: '#FFF',
+        headerTintColor: '#FFFFFF',
         headerStyle: {
           backgroundColor: '#1FB6FF'
         }
