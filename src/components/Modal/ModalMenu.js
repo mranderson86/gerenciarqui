@@ -1,46 +1,75 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal, Text, View, StyleSheet } from 'react-native';
 
 import ButtonClose from '../Button/ButtonClose';
 import ButtonConfirm from '../Button/ButtonConfirm';
 // import ButtonRadio from '../Button/ButtonRadio';
 import ButtonRadioList from '../Button/ButtonRadioList';
+import ButtonEnumerator from '../Button/ButtonEnumator';
 
 // Menu
-function ModalMenu({ modalVisible, hideModalMenu, title }) {
+function ModalMenu({ modalVisible, hideModalMenu, title, onConfirm }) {
+  // const [showButtonEnumerator, setShowButtonEnumerator] = useState(false);
+
+  const [budget, setBudget] = useState({
+    typePay: 'À Vista',
+    counterPay: 1
+  });
+
   return (
     <Modal animationType="slide" transparent visible={modalVisible}>
       <View style={styles.modal}>
         <View style={styles.content}>
           <View style={styles.top}>
             <ButtonClose
-              functionPressed={() => {
+              onPressed={() => {
                 hideModalMenu(!modalVisible);
               }}
             />
           </View>
 
-          <View style={styles.titleContainer}>
-            <Text style={styles.title}>{title}</Text>
+          <View style={styles.titleModalContainer}>
+            <Text style={styles.titleModal}>{title}</Text>
           </View>
 
           <View style={styles.menuContainer}>
             <View style={styles.menu}>
-              {/* <View style={styles.radioList}>
-                <ButtonRadio functionPressed={() => {}} title="Á Vista" />
-                <ButtonRadio functionPressed={() => {}} title="Parcelado" />
-              </View> */}
-
               <ButtonRadioList
                 items={[
                   { title: 'À Vista', checked: true },
                   { title: 'Parcelado', checked: false }
                 ]}
+                itemSelect={val => {
+                  // setShowButtonEnumerator(item.title === 'Parcelado');
+                  setBudget({
+                    ...budget,
+                    typePay: val.title
+                  });
+                }}
+              />
+
+              <View style={styles.titleContainerButtonEnumerator}>
+                <Text style={styles.titleButtonEnumerator}>Número de Parcelas</Text>
+              </View>
+
+              <ButtonEnumerator
+                onChange={val => {
+                  setBudget({
+                    ...budget,
+                    counterPay: val
+                  });
+                }}
               />
 
               <ButtonConfirm
-                functionPressed={() => {
+                onPressed={() => {
+                  if (budget.typePay === 'À Vista') {
+                    onConfirm({ ...budget, counterPay: 0 });
+                  } else {
+                    onConfirm(budget);
+                  }
+
                   hideModalMenu(!modalVisible);
                 }}
               />
@@ -67,7 +96,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'flex-end'
+    justifyContent: 'center'
   },
 
   top: {
@@ -77,14 +106,26 @@ const styles = StyleSheet.create({
     width: '90%'
   },
 
-  titleContainer: {
+  titleContainerButtonEnumerator: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '10%'
+  },
+
+  titleButtonEnumerator: {
+    fontSize: 20,
+    color: '#666'
+  },
+
+  titleModalContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     height: '10%',
     marginBottom: '2%'
   },
 
-  title: {
+  titleModal: {
     color: '#FFFFFF',
     fontSize: 25,
     fontWeight: 'bold',
@@ -107,15 +148,10 @@ const styles = StyleSheet.create({
     height: '90%',
     width: '90%',
     backgroundColor: '#FFFFFF',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
+    // alignItems: 'center',
+    // justifyContent: 'space-between',
     borderRadius: 10,
     padding: '2%'
-  },
-
-  radioList: {
-    // backgroundColor: '#CCCCCC',
-    flex: 1
   }
 });
 

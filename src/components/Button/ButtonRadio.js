@@ -1,26 +1,26 @@
 /* eslint-disable prettier/prettier */
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { TouchableOpacity, StyleSheet, Text } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-function ButtonRadio({ functionPressed, item }) {
+function ButtonRadio({ onPressed, item }) {
   // const [radio, setRadio] = useState(false);
 
-  useEffect(() => {
-    // setRadio(item);
-  }, []);
+  // useEffect(() => {
+  // setRadio(item);
+  // }, []);
 
   return (
     <TouchableOpacity
       style={styles.content}
       onPress={() => {
         // setRadio({ ...radio, checked: !radio.checked });
-        functionPressed(item);
+        onPressed(item);
       }}
     >
       <MaterialCommunityIcons
         name={item.checked ? 'circle-slice-8' : 'circle-outline'}
-        size={30}
+        size={20}
         // color="#1FB6FF"
         color="#000000"
       />
@@ -31,6 +31,7 @@ function ButtonRadio({ functionPressed, item }) {
 
 const styles = StyleSheet.create({
   content: {
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center'
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
     // color: '#1FB6FF',
     color: '#000000',
     fontSize: 20,
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
     marginLeft: '4%'
   }
 });

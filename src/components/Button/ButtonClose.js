@@ -2,9 +2,9 @@ import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
-function ButtonClose({ functionPressed }) {
+function ButtonClose({ onPressed }) {
   return (
-    <TouchableOpacity onPress={functionPressed}>
+    <TouchableOpacity onPress={onPressed}>
       <MaterialIcons name="close" size={40} color="#FFFFFF" />
     </TouchableOpacity>
   );

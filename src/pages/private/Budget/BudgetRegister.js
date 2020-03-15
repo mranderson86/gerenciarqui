@@ -38,16 +38,6 @@ function BudgetRegister(props) {
     authorization: `Bearer ${token}`
   };
 
-  // const [type, setType] = useState('');
-  // const [description, setDescription] = useState('');
-  // const [valuePay, setValuePay] = useState('0');
-  // const [valueTotal, setValueTotal] = useState(0);
-  // const [accept, setAccept] = useState(false);
-  // const [status, setStatus] = useState(false);
-  // const [typePay, setTypePay] = useState('À Vista');
-  // const [counterPay, setCounterPay] = useState(0);
-  // const [validate, setValidate] = useState('99/99/9999');
-
   const [newBudget, setNewBudget] = useState({
     type: '',
     description: '',
@@ -115,7 +105,7 @@ function BudgetRegister(props) {
     }
   }
 
-  function hideModalMenu(value) {
+  function hideModalMenu() {
     setShowModaMenu(false);
   }
 
@@ -200,13 +190,6 @@ function BudgetRegister(props) {
                 style={styles.input}
                 value={newBudget.typePay}
                 placeholder="À Vista"
-                // onChangeText={val => setTypePay(val)}
-                // onChangeText={val => {
-                //   setNewBudget({
-                //     ...newBudget,
-                //     typePay: val
-                //   });
-                // }}
                 onFocus={() => {
                   Keyboard.dismiss();
                   setShowModaMenu(true);
@@ -219,6 +202,15 @@ function BudgetRegister(props) {
                 modalVisible={showModalMenu}
                 title="Tipo de Pagamento"
                 hideModalMenu={hideModalMenu}
+                onConfirm={({ typePay, counterPay }) => {
+                  console.log(typePay, ',', counterPay);
+
+                  setNewBudget({
+                    ...newBudget,
+                    typePay,
+                    counterPay
+                  });
+                }}
               />
             )}
 
@@ -230,8 +222,6 @@ function BudgetRegister(props) {
                 value={newBudget.counterPay.toString()}
                 placeholder="0"
                 onChangeText={val => {
-                  // if (val !== '') setCounterPay(val);
-
                   setNewBudget({
                     ...newBudget,
                     counterPay: val
@@ -247,8 +237,6 @@ function BudgetRegister(props) {
               <TouchableOpacity
                 style={{ paddingLeft: '5%', paddingRight: '1%' }}
                 onPress={() => {
-                  // setAccept(!accept);
-
                   setNewBudget({
                     ...newBudget,
                     accept: !newBudget.accept
@@ -268,8 +256,6 @@ function BudgetRegister(props) {
               <TouchableOpacity
                 style={{ paddingLeft: '5%', paddingRight: '1%' }}
                 onPress={() => {
-                  // setStatus(!status);
-
                   setNewBudget({ ...newBudget, status: !newBudget.status });
                 }}
               >
@@ -304,9 +290,6 @@ function BudgetRegister(props) {
               mode="date"
               onChange={(evt, date) => {
                 setShowCalendary(false);
-
-                // setValidate(dateBrFormat(date));
-
                 setNewBudget({
                   ...newBudget,
                   validate: dateBrFormat(date)
@@ -315,6 +298,7 @@ function BudgetRegister(props) {
             />
           )}
         </View>
+
         <View style={styles.buttonSaveContainer}>
           <TouchableOpacity style={styles.buttonSave} onPress={() => save()}>
             <MaterialIcons name="save" size={30} color="#FFF" />

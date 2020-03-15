@@ -2,9 +2,9 @@ import React from 'react';
 import { TouchableOpacity, StyleSheet, Text } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
-function ButtonConfirm({ functionPressed }) {
+function ButtonConfirm({ onPressed }) {
   return (
-    <TouchableOpacity style={styles.content} onPress={functionPressed}>
+    <TouchableOpacity style={styles.content} onPress={onPressed}>
       <MaterialIcons name="check" size={40} color="#FFFFFF" />
       <Text style={styles.title}>Confirmar</Text>
     </TouchableOpacity>
