@@ -39,6 +39,14 @@ function Login({ UserAction }) {
     try {
       if (error) setError(false);
 
+      if (email === '') {
+        return;
+      }
+
+      if (password === '') {
+        return;
+      }
+
       setShow(true);
 
       const data = {
