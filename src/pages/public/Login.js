@@ -3,13 +3,14 @@ import {
   Text,
   StyleSheet,
   View,
-  TextInput,
   TouchableOpacity,
   Image,
   KeyboardAvoidingView,
   ScrollView
 } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import Icon from '@expo/vector-icons/MaterialIcons';
+import { Input } from 'react-native-elements';
+
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -98,23 +99,29 @@ function Login({ UserAction }) {
 
           <View style={styles.formContainer}>
             <View style={styles.inputContainer}>
-              <Text style={styles.label}>Usuário</Text>
-              <TextInput
-                style={styles.input}
+              <Input
+                label="Usuário"
+                textContentType="emailAddress"
+                leftIcon={<Icon name="email" size={24} color="#999" />}
                 value={email}
                 placeholder="Digite seu usuário"
                 onChangeText={val => setEmail(val)}
+                // errorStyle={ErrorConfig}
+                // errorMessage="Por favor,informe seu usuário"
               />
             </View>
 
             <View style={styles.inputContainer}>
-              <Text style={styles.label}>Senha</Text>
-              <TextInput
+              <Input
+                label="Senha"
                 secureTextEntry
-                style={styles.input}
+                textContentType="password"
+                leftIcon={<Icon name="lock" size={24} color="#999" />}
                 value={password}
-                placeholder="Digite sua senha"
+                placeholder="Informe sua Senha"
                 onChangeText={val => setPassword(val)}
+                // errorStyle={ErrorConfig}
+                // errorMessage="Por favor,informe sua senha"
               />
             </View>
 
@@ -131,7 +138,7 @@ function Login({ UserAction }) {
             <View style={styles.buttonLoginContainer}>
               <TouchableOpacity style={styles.buttonSave} onPress={() => submitLogin()}>
                 <Text style={styles.labelButtonLogin}>Entrar</Text>
-                <MaterialIcons name="chevron-right" size={30} color="#FFF" />
+                <Icon name="chevron-right" size={30} color="#FFF" />
               </TouchableOpacity>
             </View>
           </View>
@@ -141,10 +148,15 @@ function Login({ UserAction }) {
   );
 }
 
+const BgColor = '#F7F7F7'; // #FF4949
+
+// const ErrorConfig = { color: '#FF4949', fontSize: 18 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F7F7F7',
+    // backgroundColor: '#F7F7F7',
+    backgroundColor: BgColor,
     alignItems: 'center',
     flexDirection: 'column',
     justifyContent: 'center'
@@ -165,7 +177,8 @@ const styles = StyleSheet.create({
   formContainer: {
     backgroundColor: '#FFF',
     width: '100%',
-    marginTop: '5%'
+    marginTop: '5%',
+    borderRadius: 10
   },
 
   inputContainer: {
@@ -209,7 +222,7 @@ const styles = StyleSheet.create({
   },
 
   logoContainer: {
-    backgroundColor: '#000',
+    backgroundColor: BgColor,
     width: 200,
     height: 200,
     justifyContent: 'center',
@@ -219,7 +232,8 @@ const styles = StyleSheet.create({
 
   imageLogoContainer: {
     width: '100%',
-    height: '100%'
+    height: '100%',
+    borderRadius: 100
   }
 });
 
