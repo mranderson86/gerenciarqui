@@ -1,9 +1,17 @@
 import moment from 'moment';
 
 // Data no formato BR
-function dateBrFormat(date = '') {
+function dateBrFormat(date) {
   if (date) {
     return moment(date).format('DD/MM/YYYY');
+  }
+
+  return '';
+}
+
+function dateUsFormat(date) {
+  if (date) {
+    return moment(date).format('YYYY-MM-DD');
   }
 
   return '';
@@ -31,3 +39,4 @@ export { dateBrFormat };
 export { moneyUsFormat };
 export { moneyBrFormat };
 export { moneyBrMask };
+export { dateUsFormat };

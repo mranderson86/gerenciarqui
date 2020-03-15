@@ -57,7 +57,7 @@ function CardItem(props) {
 function BudgetList(props) {
   const { BudgetCurrentAction, userProjects, userLogin, navigation, route } = props;
   const { token, profissional } = userLogin;
-  const { project, reload } = userProjects;
+  const { project } = userProjects;
 
   const { reloading } = route.params;
 
@@ -68,7 +68,7 @@ function BudgetList(props) {
   // carrega a lista das etapas
   useEffect(() => {
     loadBudgets();
-  }, [navigation, reload, reloading]);
+  }, [navigation, reloading]);
 
   // consulta a lista das etapas
   async function loadBudgets() {

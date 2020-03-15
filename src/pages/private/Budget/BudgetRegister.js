@@ -20,7 +20,13 @@ import { UserAction } from '../../../store/Users/userAction';
 import Result from '../../../components/Result/Result';
 import ModalMenu from '../../../components/Modal/ModalMenu';
 
-import { dateBrFormat, moneyUsFormat, moneyBrFormat, moneyBrMask } from '../../../utils/utils';
+import {
+  dateBrFormat,
+  moneyUsFormat,
+  moneyBrFormat,
+  moneyBrMask
+  // dateUsFormat
+} from '../../../utils/utils';
 
 // Tela Lista de Etapas
 function BudgetRegister(props) {
@@ -45,7 +51,7 @@ function BudgetRegister(props) {
     valueTotal: '0',
     accept: false,
     status: false,
-    typePay: '',
+    typePay: 'À Vista',
     counterPay: '',
     validate: dateBrFormat(new Date())
   });
@@ -53,10 +59,6 @@ function BudgetRegister(props) {
   // carrega dados da etapa
   useEffect(() => {
     if (edit && budget) {
-      // setType(budget.tipo);
-      // setDescription(budget.descricao);
-      // setValueTotal(budget.valor_total || 0);
-
       setNewBudget({
         type: budget.tipo,
         description: budget.descricao,
@@ -73,12 +75,20 @@ function BudgetRegister(props) {
   // Salva uma nova etapa ou altera uma etapa existente
   async function save() {
     try {
+      if (newBudget.type === '') {
+        return;
+      }
+
+      if (newBudget.description === '') {
+        return;
+      }
+
       const data = {
         ...budget,
         tipo: newBudget.type,
         descricao: newBudget.description,
         projeto_id: project._id,
-        valor_pago: moneyUsFormat(newBudget.valuePay),
+        valor_pago: moneyUsFormat(newBudget.valuePay || 0),
         meio_pagto: newBudget.typePay,
         parcelas: newBudget.counterPay || 0,
         valor_parcela: 0.0,
@@ -123,13 +133,11 @@ function BudgetRegister(props) {
       <ScrollView style={{ width: '100%', height: '100%' }}>
         <View style={styles.formContainer}>
           <View style={styles.inputContainer100perc}>
-            <Text style={styles.label}>Tipo</Text>
+            <Text style={styles.label}>Tipo(*)</Text>
             <TextInput
               style={styles.input}
-              // value={type}
               value={newBudget.type}
               placeholder="Digite aqui"
-              // onChangeText={val => setType(val)}
               onChangeText={val => {
                 setNewBudget({
                   ...newBudget,
@@ -140,13 +148,11 @@ function BudgetRegister(props) {
           </View>
 
           <View style={styles.inputContainer100perc}>
-            <Text style={styles.label}>Descrição</Text>
+            <Text style={styles.label}>Descrição(*)</Text>
             <TextInput
               style={styles.input}
-              // value={description}
               value={newBudget.description}
               placeholder="Digite aqui"
-              // onChangeText={val => setDescription(val)}
               onChangeText={val => {
                 setNewBudget({
                   ...newBudget,
@@ -203,8 +209,6 @@ function BudgetRegister(props) {
                 title="Tipo de Pagamento"
                 hideModalMenu={hideModalMenu}
                 onConfirm={({ typePay, counterPay }) => {
-                  console.log(typePay, ',', counterPay);
-
                   setNewBudget({
                     ...newBudget,
                     typePay,
@@ -216,18 +220,9 @@ function BudgetRegister(props) {
 
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Parcelas</Text>
-              <TextInput
-                keyboardType="number-pad"
-                style={styles.input}
-                value={newBudget.counterPay.toString()}
-                placeholder="0"
-                onChangeText={val => {
-                  setNewBudget({
-                    ...newBudget,
-                    counterPay: val
-                  });
-                }}
-              />
+              <TextInput editable={false} style={styles.labelValueReadOnly}>
+                {newBudget.counterPay.toString() || 0}
+              </TextInput>
             </View>
           </View>
 
@@ -313,23 +308,18 @@ function BudgetRegister(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#E5E9F2'
   },
 
   formContainer: {
     backgroundColor: '#FFF',
-    // width: "100%",
     marginTop: '5%',
     marginHorizontal: '2%'
-    // padding: '2%'
   },
 
   detailsContainer: {
-    // justifyContent: 'center',
     alignItems: 'center'
-    // backgroundColor: '#000'
   },
 
   containerInputValueRow: {
